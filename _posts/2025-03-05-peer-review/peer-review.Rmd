@@ -1,0 +1,148 @@
+---
+title: "Visualizations for Peer Review"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{r}
+library(rio)
+library(here)
+library(tidyverse)
+library(ggmosaic)
+```
+
+```{r}
+weight <- import(here("data", "cleaned_data.rds"))
+```
+
+# income, weight perception, BMI
+```{r}
+ggplot(weight, aes(x = income_level, y = BMI, color = weight_perception)) +
+  geom_jitter(alpha = 0.5, width = 0.2) +
+  ylim(NA, 40) +
+  theme_minimal()
+```
+
+# education level, weight perception, BMI
+```{r}
+ggplot(weight, aes(x = education_level, y = BMI, color = weight_perception)) +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  ylim(NA, 40) +
+  theme_minimal() +
+  labs(x = "Education Level", y = "BMI", color = "Weight Perception")
+```
+
+# health insurance type, weight perception, BMI
+```{r}
+weight$health_insurance_type <- factor(weight$health_insurance_type, 
+                                        levels = c("state_sponsored_plan", "medicaid", "private_insurance"))
+
+ggplot(weight, aes(x = health_insurance_type, y = BMI, color = weight_perception)) +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  ylim(NA, 40) +
+  theme_minimal() +
+  labs(x = "Types of Health Insurance", y = "BMI", color = "Weight Perception")
+```
+
+
+# income and dining choice 
+```{r}
+weight$income_group <- cut(weight$income_level, 
+                           breaks = c(0, 2.5, 5), 
+                           labels = c("Low Income", "High Income"),
+                           include.lowest = TRUE)
+
+weight_summary <- weight %>%
+  count(income_group, education_level, health_insurance_type, dininglocation)
+
+weight_summary$dininglocation <- factor(weight_summary$dininglocation, 
+                                        levels = c("fastfood", "buffet", "restaurant"))
+
+ggplot(weight_summary) +
+  geom_mosaic(aes(weight = n, x = product(income_group), fill = dininglocation)) +
+  scale_fill_manual(values = c("fastfood" = "lightgreen", 
+                               "buffet" = "green", 
+                               "restaurant" = "darkgreen")) +
+  theme_minimal()
+```
+
+# education level and dining choice
+```{r}
+ggplot(weight_summary) +
+  geom_mosaic(aes(weight = n, x = product(education_level), fill = dininglocation)) +
+  scale_fill_manual(values = c("fastfood" = "lightgreen", 
+                               "buffet" = "green", 
+                               "restaurant" = "darkgreen")) +
+  theme_minimal()
+```
+
+# health insurance type and dining choice
+```{r}
+weight_summary$health_insurance_type <- factor(weight_summary$health_insurance_type, 
+                                               levels = c("state_sponsored_plan", "medicaid", "private_insurance"))
+
+ggplot(weight_summary) +
+  geom_mosaic(aes(weight = n, x = product(health_insurance_type), fill = dininglocation)) +
+  scale_fill_manual(values = c("fastfood" = "lightgreen", 
+                               "buffet" = "green", 
+                               "restaurant" = "darkgreen")) +
+  theme_minimal()
+```
+
+# income and label calories check for weight control
+```{r}
+ggplot(weight, aes(x = income_level, y = calorie_label_usage)) +
+  geom_jitter(alpha = 0.2) +  
+  geom_smooth(method = "lm", color = "red") +
+  theme_minimal() +
+  labs(x = "Income Level", y = "Calorie Label Checking Frequency for Weight Control")
+```
+
+# education level and label calories check for weight control
+```{r}
+ggplot(weight, aes(x = education_level, y = calorie_label_usage)) +
+  geom_jitter(alpha = 0.2) +  
+  geom_smooth(method = "lm", color = "blue") +
+  theme_minimal() +
+  labs(x = "Education Level", y = "Calorie Label Checking Frequency for Weight Control")
+
+```
+
+# health insurance type and label calories check for weight control
+```{r}
+ggplot(weight, aes(x = health_insurance_type, y = calorie_label_usage)) +
+  geom_jitter(alpha = 0.2) +  
+  theme_minimal() +
+  labs(x = "Health Insurance Type", y = "Calorie Label Checking Frequency for Weight Control")
+```
+
+# income and weight loss behavior
+```{r}
+ggplot(weight, aes(x = income_level, fill = weight_loss_behavior_type, color = weight_loss_behavior_type)) +
+  geom_density(alpha = 0.5) +  
+  scale_fill_viridis_d() + 
+  theme_minimal() +
+  labs(x = "Income Level", y = "Density", fill = "Weight Loss Behavior Type", color = "Weight Loss Behavior Type") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+# education level and weight loss behavior
+```{r}
+ggplot(weight, aes(x = education_level, fill = weight_loss_behavior_type)) +
+  geom_bar(position = "fill") +  
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+# health insurance type and weight loss behavior
+```{r}
+ggplot(weight, aes(x = health_insurance_type, fill = weight_loss_behavior_type)) +
+  geom_bar(position = "fill") +  
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+

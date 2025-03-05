@@ -1,0 +1,20 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "Background, Data, and Analysis",
+      "author": [],
+      "contents": "\nBackground\nData Source\nNational Health and Nutrition Examination Survey (NHANES) 2017-March 2020 from the National Center for Health Statistics of Centers for Disease Control and Prevention was used in this project. Additional details about the data and its methodology can be found at here\nAnalysis\n\n\n\n",
+      "last_modified": "2025-03-05T10:38:42-08:00"
+    },
+    {
+      "path": "index.html",
+      "title": "SES and Weight",
+      "description": "Welcome to the EDLD652 Data Visualization Final Project Product website!\n",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2025-03-05T10:38:43-08:00"
+    }
+  ],
+  "collections": ["posts/posts.json"]
+}
