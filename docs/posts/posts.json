@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "path": "posts/2025-03-05-peer-review/",
+    "title": "Visualizations for Peer Review",
+    "description": {},
+    "author": [],
+    "date": "2025-03-05",
+    "categories": [],
+    "contents": "\n\n\n\n\n\n\nincome, weight perception, BMI\n\n\n\neducation level, weight perception, BMI\n\n\n\nhealth insurance type, weight perception, BMI\n\n\n\nincome and dining choice\n\n\n\neducation level and dining choice\n\n\n\nhealth insurance type and dining choice\n\n\n\nincome and label calories check for weight control\n\n\n\neducation level and label calories check for weight control\n\n\n\nhealth insurance type and label calories check for weight control\n\n\n\nincome and weight loss behavior\n\n\n\neducation level and weight loss behavior\n\n\n\nhealth insurance type and weight loss behavior\n\n\n\n\n\n\n",
+    "preview": {},
+    "last_modified": "2025-03-05T10:48:12-08:00",
+    "input_file": {}
+  }
+]
