@@ -1,5 +1,5 @@
 ---
-title: "SES and Weight"
+title: "SES and Weight-related Perception & Behavior"
 description: |
   Welcome to the EDLD652 Data Visualization Final Project Product website!
 site: distill::distill_website
