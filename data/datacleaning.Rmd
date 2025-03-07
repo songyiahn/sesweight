@@ -1,0 +1,206 @@
+---
+title: "DATA CLEANING FOR FINAL PROJECT"
+author: "Songyi Ahn"
+date: "2025-03-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{r}
+#LIBRARY PACKAGES
+library(rio)
+library(here)
+library(tidyverse)
+```
+
+```{r}
+#IMPORT DATA
+bmx <- import(here("data", "P_BMX.xpt"))
+cbqpfa <- import(here("data", "P_CBQPFA.xpt"))
+demo <- import(here("data", "P_DEMO.xpt"))
+hiq <- import(here("data", "P_HIQ.xpt"))
+ocq <- import(here("data", "P_OCQ.xpt"))
+whq <- import(here("data", "P_WHQ.xpt"))
+```
+
+```{r}
+#SELECT RELATED COLUMNS
+bmx <- bmx %>% select(SEQN, BMXBMI)
+cbqpfa <- cbqpfa %>% select(SEQN, CBQ506, CBQ551, CBQ830, CBQ930, CBQ738A)
+demo <- demo %>% select(SEQN, DMDEDUC2, INDFMPIR)
+hiq <- hiq %>% select(SEQN, HIQ032A, HIQ032D, HIQ032E, HIQ032H, HIQ032J)
+ocq <- ocq %>% select(SEQN, OCD150)
+whq <- whq %>% select(SEQN, WHQ030, starts_with("WHD080"))
+
+#JOIN ALL DATA
+alldata <- list(bmx, cbqpfa, demo, hiq, ocq, whq)
+joined_data <- reduce(alldata, inner_join, by = "SEQN")
+```
+
+# IVs / SES
+```{r}
+#INCOME LEVEL
+cleaned_data <- joined_data %>% 
+  drop_na(INDFMPIR) %>%
+  rename(income_level = INDFMPIR)
+```
+
+```{r}
+#EMPLOYMENT STATUS
+cleaned_data <- cleaned_data %>%
+  rename(employment_status = OCD150) %>%
+  mutate(employment_status = case_when(
+    employment_status %in% c(1, 2) ~ "employed",
+    employment_status %in% c(3, 4) ~ "unemployed",
+    employment_status %in% c(7, 9, NA) ~ NA_character_)) %>%
+  filter(!is.na(employment_status))
+
+cleaned_data <- cleaned_data %>%
+  mutate(employment_status = ifelse(employment_status == "employed", 1, 0))
+```
+
+```{r}
+#EDUCATIONAL LEVEL
+cleaned_data <- cleaned_data %>%
+  filter(DMDEDUC2 %in% c(1, 2, 3, 4, 5)) %>%
+  rename(education_level = DMDEDUC2)
+```
+
+```{r}
+#HEALTH INSURANCE STATUS
+cleaned_data <- cleaned_data %>%
+  rename(
+    private_insurance = HIQ032A,
+    medicaid = HIQ032D,
+    chip = HIQ032E,
+    state_sponsored_plan = HIQ032H,
+    no_insurance = HIQ032J
+  ) %>%
+  pivot_longer(
+    cols = c(private_insurance, medicaid, chip, state_sponsored_plan, no_insurance),
+    names_to = "health_insurance_type",
+    values_to = "health_insurance_type_response"
+  ) %>%
+  filter(!is.na(health_insurance_type_response))
+
+cleaned_data <- cleaned_data %>%
+  filter(!health_insurance_type_response %in% c(77, 99))
+
+cleaned_data <- cleaned_data %>%
+  select(-health_insurance_type_response)
+
+cleaned_data <- cleaned_data %>%
+  mutate(health_insurance_type = case_when(
+    health_insurance_type == "no_insurance" ~ 1,
+    health_insurance_type == "medicaid" ~ 2,
+    health_insurance_type == "chip" ~ 3,
+    health_insurance_type == "state_sponsored_plan" ~ 4,
+    health_insurance_type == "private_insurance" ~ 5,
+    TRUE ~ NA_real_
+  )) 
+```
+
+```{r}
+#SES
+cleaned_data <- cleaned_data %>%
+  mutate(SES = rowMeans(select(., education_level, income_level, employment_status, health_insurance_type), 
+                        na.rm = TRUE))
+```
+
+
+# DVs
+```{r}
+#BMI
+cleaned_data <- cleaned_data %>% 
+  drop_na(BMXBMI) %>%
+  rename(BMI = BMXBMI)
+```
+
+```{r}
+#WEIGHT PERCEPTION
+cleaned_data <- cleaned_data %>%
+  rename(weight_perception = WHQ030) %>%
+  mutate(weight_perception = case_when(
+    weight_perception == 1 ~ "overweight",
+    weight_perception == 2 ~ "underweight",
+    weight_perception == 3 ~ "right weight",
+    TRUE ~ NA_character_)) %>%
+  filter(!is.na(weight_perception))
+```
+
+```{r}
+#CALORIE LABEL USAGE FOR WEIGHT FREQUENCY
+cleaned_data <- cleaned_data %>%
+  drop_na(CBQ738A) %>%
+  rename(label_check_for_weight = CBQ738A) %>%
+  filter(label_check_for_weight != 99)
+
+cleaned_data <- cleaned_data %>%
+  filter(CBQ930 %in% c(1, 2, 3, 4, 5, 6)) %>%
+  rename(calorie_label_usage = CBQ930)
+```
+
+```{r}
+#WEIGHT LOSS BEHAVIOR
+cleaned_data <- cleaned_data %>%
+  pivot_longer(
+    cols = starts_with("WHD080"), 
+    names_to = "weight_loss_behavior_type",   
+    values_to = "weight_loss_behavior_response"
+  ) %>%
+  filter(!is.na(weight_loss_behavior_response)) %>%
+  mutate(weight_loss_behavior_type = case_when(
+    weight_loss_behavior_type %in% c("WHD080A", "WHD080C", "WHD080E", "WHD080O", "WHD080S", "WHD080T") ~ "less_eating",
+    weight_loss_behavior_type %in% c("WHD080B", "WHD080F", "WHD080G", "WHD080M", "WHD080N", "WHD080Q", "WHD080R") ~ "diet_change",
+    weight_loss_behavior_type %in% c("WHD080J", "WHD080K", "WHD080P") ~ "risky_behaviors(laxative, vomit, non-prescription pill, smoke)",
+    weight_loss_behavior_type %in% c("WHD080H", "WHD080I", "WHD080U") ~ "professional_help",
+    weight_loss_behavior_type == "WHD080L" ~ "other",
+    weight_loss_behavior_type == "WHD080D" ~ "exercise",
+    TRUE ~ NA_character_  
+  ))
+
+cleaned_data <- cleaned_data %>%
+  select(-weight_loss_behavior_response)
+```
+
+```{r}
+#DINING CHOICE
+cleaned_data <- cleaned_data %>% 
+  drop_na(CBQ506, CBQ551, CBQ830) %>%
+  rename(fastfood = CBQ506,
+         restaurant = CBQ551,
+         buffet = CBQ830)
+
+cleaned_data <- cleaned_data %>%
+  pivot_longer(
+    cols = c(`fastfood`, `restaurant`, `buffet`),
+    names_to = "dininglocation",
+    values_to = "dininglocation_response"
+  ) 
+
+cleaned_data <- cleaned_data %>%
+  filter(dininglocation_response != 2)
+
+cleaned_data <- cleaned_data %>%
+  select(-dininglocation_response)
+```
+
+```{r}
+#REMOVE DUPLICATED ROWS
+cleaned_data <- cleaned_data %>%
+  distinct(SEQN, dininglocation, weight_loss_behavior_type, .keep_all = TRUE)
+```
+
+```{r}
+#SELECT NECESSARY COLUMNS
+cleaned_data <- cleaned_data %>%
+  select(-label_check_for_weight, -education_level, -income_level, -employment_status, -health_insurance_type)
+```
+
+```{r}
+#SAVE DATA
+saveRDS(cleaned_data, "data/sesdata.rds")
+```

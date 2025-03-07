@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2025-03-07-ses-and-weight-perception/",
+    "title": "SES and Weight Perception",
+    "description": "How does socioeconomic status (SES) influence individual's perceptions of their own weight?",
+    "author": [
+      {
+        "name": "Songyi Ahn",
+        "url": {}
+      }
+    ],
+    "date": "2025-03-07",
+    "categories": [],
+    "contents": "\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "preview": "posts/2025-03-07-ses-and-weight-perception/ses-and-weight-perception_files/figure-html5/unnamed-chunk-3-1.png",
+    "last_modified": "2025-03-07T15:04:52-08:00",
+    "input_file": "ses-and-weight-perception.knit.md"
+  },
+  {
     "path": "posts/2025-03-05-peer-review/",
     "title": "Visualizations for Peer Review",
     "description": {},
