@@ -17,6 +17,23 @@
     "input_file": {}
   },
   {
+    "path": "posts/2025-03-07-ses-and-calorie-check-for-weight/",
+    "title": "SES and Calorie Check for Weight",
+    "description": "How does socioeconomic status (SES) influence frequency of label calorie check for weight management?",
+    "author": [
+      {
+        "name": "Songyi Ahn",
+        "url": {}
+      }
+    ],
+    "date": "2025-03-07",
+    "categories": [],
+    "contents": "\n\n\n\n\n\n\nFirst Draft\n\n\n\n\n\n\n",
+    "preview": "posts/2025-03-07-ses-and-calorie-check-for-weight/ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-3-1.png",
+    "last_modified": "2025-03-07T16:42:22-08:00",
+    "input_file": "ses-and-calorie-check-for-weight.knit.md"
+  },
+  {
     "path": "posts/2025-03-05-peer-review/",
     "title": "Visualizations for Peer Review",
     "description": {},

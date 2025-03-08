@@ -1,23 +1,36 @@
 ---
 title: "SES and Calorie Check for Weight"
 description: |
-  A short description of the post.
-author:
-  - name: Songyi Ahn
-    url: {}
+  How does socioeconomic status (SES) influence frequency of label calorie check for weight management?
+author: [Songyi Ahn]
 date: 2025-03-07
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
+```{r}
+library(rio)
+library(here)
+library(tidyverse)
+library(hexbin)
+```
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+```{r}
+weight2 <- import(here("data", "sesdata.rds"))
+```
 
+# First Draft
+```{r}
+weight2 %>%
+  mutate(SES_bin = cut(SES, breaks = 3)) %>%  # SES를 5개 구간으로 나눔
+  ggplot(aes(x = SES_bin, y = factor(calorie_label_usage))) +
+  geom_bin2d() +
+  scale_fill_gradient(low = "white", high = "blue") +
+  theme_minimal()
+```
 
