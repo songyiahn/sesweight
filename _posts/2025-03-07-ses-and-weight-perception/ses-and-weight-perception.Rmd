@@ -23,6 +23,7 @@ library(tidyverse)
 weight1 <- import(here("data", "sesdata.rds"))
 ```
 
+# First Draft
 ```{r}
 ggplot(weight1, aes(x = BMI, y = SES, color = weight_perception)) +
   geom_jitter(width = 0.2, alpha = 0.5) +
