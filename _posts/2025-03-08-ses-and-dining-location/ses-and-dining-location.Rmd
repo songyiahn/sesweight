@@ -1,0 +1,63 @@
+---
+title: "SES and Dining Location"
+description: |
+  How does socioeconomic status (SES) influence individual's choices of dining locations?
+author: [Songyi Ahn]
+date: 2025-03-08
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{r}
+library(rio)
+library(here)
+library(tidyverse)
+library(ggmosaic)
+```
+
+```{r}
+weight4 <- import(here("data", "sesdata.rds"))
+```
+
+# First Draft
+```{r}
+weight4$SES_group3 <- cut(weight4$SES,
+                         breaks = quantile(weight4$SES, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
+                         include.lowest = TRUE,
+                         labels = c("Low", "Middle", "High"))
+
+weight_summary4 <- weight4 %>%
+  count(SES_group3, dininglocation)
+
+weight_summary4$dininglocation <- factor(weight_summary4$dininglocation, 
+                                        levels = c("fastfood", "buffet", "restaurant"))
+
+ggplot(weight_summary4) +
+  geom_mosaic(aes(weight = n, x = product(SES_group3), fill = dininglocation)) +
+  scale_fill_viridis_d() +
+  theme_minimal()
+```
+
+# Second Draft
+```{r}
+weight4$SES_group2 <- cut(weight4$SES,
+                         breaks = quantile(weight4$SES, probs = c(0, 0.5, 1), na.rm = TRUE),
+                         include.lowest = TRUE,
+                         labels = c("Low", "High"))
+
+weight_summary4 <- weight4 %>%
+  count(SES_group2, dininglocation)
+
+weight_summary4$dininglocation <- factor(weight_summary4$dininglocation, 
+                                         levels = c("fastfood", "buffet", "restaurant"))
+
+ggplot(weight_summary4) +
+  geom_mosaic(aes(weight = n, x = product(SES_group2), fill = dininglocation)) +
+  scale_fill_viridis_d() +
+  theme_minimal()
+```

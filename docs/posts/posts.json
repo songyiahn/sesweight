@@ -1,19 +1,36 @@
 [
   {
-    "path": "posts/2025-03-07-ses-and-weight-perception/",
-    "title": "SES and Weight Perception",
-    "description": "How does socioeconomic status (SES) influence individual's perceptions of their own weight?",
+    "path": "posts/2025-03-08-ses-and-dining-location/",
+    "title": "SES and Dining Location",
+    "description": "How does socioeconomic status (SES) influence individual's choices of dining locations?",
     "author": [
       {
         "name": "Songyi Ahn",
         "url": {}
       }
     ],
-    "date": "2025-03-07",
+    "date": "2025-03-08",
     "categories": [],
-    "contents": "\n\n\n\n\n\n\nFirst Draft\n\n\n\n\n\n\n",
-    "preview": "posts/2025-03-07-ses-and-weight-perception/ses-and-weight-perception_files/figure-html5/unnamed-chunk-3-1.png",
-    "last_modified": "2025-03-07T15:07:25-08:00",
+    "contents": "\n\n\n\n\n\n\nFirst Draft\n\n\n\nSecond Draft\n\n\n\n\n\n\n",
+    "preview": "posts/2025-03-08-ses-and-dining-location/ses-and-dining-location_files/figure-html5/unnamed-chunk-3-1.png",
+    "last_modified": "2025-03-08T11:17:43-08:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/2025-03-08-ses-and-weight-loss-behavior/",
+    "title": "SES and Weight Loss Behavior",
+    "description": "How does socioeconomic status (SES) influence engagement in various weight loss behaviors?",
+    "author": [
+      {
+        "name": "Songyi Ahn",
+        "url": {}
+      }
+    ],
+    "date": "2025-03-08",
+    "categories": [],
+    "contents": "\n\n\n\n\n\n\nFirst Draft\n\n\n\nSecond Draft\n\n\n\n\n\n\n",
+    "preview": "posts/2025-03-08-ses-and-weight-loss-behavior/ses-and-weight-loss-behavior_files/figure-html5/unnamed-chunk-3-1.png",
+    "last_modified": "2025-03-08T10:49:38-08:00",
     "input_file": {}
   },
   {
@@ -31,18 +48,23 @@
     "contents": "\n\n\n\n\n\n\nFirst Draft\n\n\n\n\n\n\n",
     "preview": "posts/2025-03-07-ses-and-calorie-check-for-weight/ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-3-1.png",
     "last_modified": "2025-03-07T16:42:22-08:00",
-    "input_file": "ses-and-calorie-check-for-weight.knit.md"
+    "input_file": {}
   },
   {
-    "path": "posts/2025-03-05-peer-review/",
-    "title": "Visualizations for Peer Review",
-    "description": {},
-    "author": [],
-    "date": "2025-03-05",
+    "path": "posts/2025-03-07-ses-and-weight-perception/",
+    "title": "SES and Weight Perception",
+    "description": "How does socioeconomic status (SES) influence individual's perceptions of their own weight?",
+    "author": [
+      {
+        "name": "Songyi Ahn",
+        "url": {}
+      }
+    ],
+    "date": "2025-03-07",
     "categories": [],
-    "contents": "\n\n\n\n\n\n\nincome, weight perception, BMI\n\n\n\neducation level, weight perception, BMI\n\n\n\nhealth insurance type, weight perception, BMI\n\n\n\nincome and dining choice\n\n\n\neducation level and dining choice\n\n\n\nhealth insurance type and dining choice\n\n\n\nincome and label calories check for weight control\n\n\n\neducation level and label calories check for weight control\n\n\n\nhealth insurance type and label calories check for weight control\n\n\n\nincome and weight loss behavior\n\n\n\neducation level and weight loss behavior\n\n\n\nhealth insurance type and weight loss behavior\n\n\n\n\n\n\n",
-    "preview": {},
-    "last_modified": "2025-03-05T10:48:12-08:00",
+    "contents": "\n\n\n\n\n\n\nFirst Draft\n\n\n\n\n\n\n",
+    "preview": "posts/2025-03-07-ses-and-weight-perception/ses-and-weight-perception_files/figure-html5/unnamed-chunk-3-1.png",
+    "last_modified": "2025-03-07T15:07:25-08:00",
     "input_file": {}
   }
 ]

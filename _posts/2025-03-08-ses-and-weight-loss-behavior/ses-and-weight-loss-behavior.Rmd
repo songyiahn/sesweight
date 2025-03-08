@@ -1,0 +1,51 @@
+---
+title: "SES and Weight Loss Behavior"
+description: |
+  How does socioeconomic status (SES) influence engagement in various weight loss behaviors?
+author: [Songyi Ahn]
+date: 2025-03-08
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{r}
+library(rio)
+library(here)
+library(tidyverse)
+library(ggridges)
+```
+
+```{r}
+weight3 <- import(here("data", "sesdata.rds"))
+```
+
+# First Draft
+```{r}
+weight3 %>%
+  ggplot(aes(x = SES, y = weight_loss_behavior_type, group = weight_loss_behavior_type)) +
+  geom_density_ridges()
+```
+
+# Second Draft
+```{r}
+weight3 %>%
+  ggplot(aes(x = SES, y = weight_loss_behavior_type, fill = weight_loss_behavior_type)) +
+  geom_density_ridges(alpha = 0.8) +  
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  stat_summary(
+    aes(label = weight_loss_behavior_type),  # 레이블 내용
+    fun = median,  # 중앙값에 위치하도록 설정
+    geom = "text",
+    color = "white",  # 글씨 색깔
+    size = 2,  # 글씨 크기
+    hjust = 0.8,  # 위치 조정 (왼쪽으로 약간 이동)
+    vjust = -3
+  ) +
+  theme(axis.text.y = element_blank())  # y축 라벨 제거
+```
