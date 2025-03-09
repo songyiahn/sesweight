@@ -1,7 +1,7 @@
 ---
 title: "SES and Calorie Check for Weight"
 description: |
-  How does socioeconomic status (SES) influence frequency of label calorie check for weight management?
+  How is socioeconomic status (SES) associated with the frequency of calorie label checking for weight management?
 author: [Songyi Ahn]
 date: 2025-03-07
 output:
@@ -26,10 +26,55 @@ weight2 <- import(here("data", "sesdata.rds"))
 # First Draft
 ```{r}
 weight2 %>%
-  mutate(SES_bin = cut(SES, breaks = 3)) %>%  # SES를 5개 구간으로 나눔
+  mutate(SES_bin = cut(SES, breaks = 3)) %>% 
   ggplot(aes(x = SES_bin, y = factor(calorie_label_usage))) +
   geom_bin2d() +
   scale_fill_gradient(low = "white", high = "blue") +
-  theme_minimal()
+  theme_minimal() 
+```
+
+# Second Draft
+```{r}
+weight2 %>%
+  mutate(SES_bin = cut(SES, 
+                       breaks = quantile(SES, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
+                       include.lowest = TRUE,
+                       labels = c("Low", "Middle", "High"))) %>% 
+  ggplot(aes(x = SES_bin, y = factor(calorie_label_usage))) + 
+  geom_bin2d() +
+  scale_fill_viridis_c(option = "D") +
+  theme_minimal() +
+  labs(x = "SES", y = "Frequency of Calorie Label Checking for Weight Management", fill = "Count",
+      title = "Calorie label Checking by SES Group")
+```
+
+# Third Draft
+```{r}
+weight2 %>%
+  mutate(
+    SES_group = cut(SES, 
+                  breaks = quantile(SES, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
+                  include.lowest = TRUE,
+                  labels = c("Low", "Middle", "High")),
+    calorie_label_usage = recode(calorie_label_usage,
+                                 `1` = "Always",
+                                 `2` = "Most of the time",
+                                 `3` = "Sometimes",
+                                 `4` = "Rarely",
+                                 `5` = "Never"),
+    calorie_label_usage = factor(calorie_label_usage, 
+                                 levels = c("Never", "Rarely", "Sometimes", "Most of the time", "Always"))
+  ) %>% 
+  count(SES_group, calorie_label_usage) %>%
+  ggplot(aes(x = SES_group, y = calorie_label_usage, fill = n)) + 
+  geom_tile(color = "white") + 
+  scale_fill_viridis_c(option = "D") +
+  theme_minimal() +
+  labs(
+    x = "SES",
+    y = "Frequency of Calorie Label Checking for Weight Management",
+    fill = "Count",
+    title = "Calorie Label Checking by SES Group"
+  )
 ```
 

@@ -1,0 +1,286 @@
+---
+title: "Socialeconomic Status and Weight-related Perception & Behavior"
+author: "Songyi Ahn"
+format: 
+  revealjs:
+    embeded-resources: true
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{r}
+library(rio)
+library(here)
+library(tidyverse)
+library(ggridges)
+library(ggmosaic)
+```
+
+## Background
+
+-   Topic
+-   Data source and content
+
+------------------------------------------------------------------------
+
+## Research Questions
+
+-   RQ1: How is socioeconomic status (SES) associated with an individual’s **perceptions of their own weight**?
+-   RQ2: How is socioeconomic status (SES) associated with the frequency of **calorie label checking for weight** management?
+-   RQ3: How is socioeconomic status (SES) associated with engagement in various **weight loss behaviors**?
+-   RQ4: How is socioeconomic status (SES) associated with individuals’ choices of **dining locations**?
+
+------------------------------------------------------------------------
+
+## Brief Showcase of Visualizations
+
+::: incremental
+### SES and Weight Perception
+
+```{r}
+weight1 <- import(here("data", "sesdata.rds"))
+```
+
+```{r}
+weight1 %>%
+ggplot(aes(x = SES, y = BMI, color = weight_perception)) +
+  geom_jitter(width = 0.2, alpha = 0.7) +
+  ylim(NA, 50) +
+  scale_color_viridis_d() +
+  theme_minimal() +
+  scale_x_continuous(breaks = c(1, 4),
+                     labels = c("Low", "High")) +
+  labs(x = "SES", y = "BMI", color = "Weight Perception",
+       title = "Differences in Weight Perception by SES at the Same BMI")
+```
+:::
+
+::: incremental
+### SES and Calorie Label Checking for Weight
+
+```{r}
+weight2 <- import(here("data", "sesdata.rds"))
+```
+
+```{r}
+weight2 %>%
+  mutate(
+    SES_group = cut(SES, 
+                  breaks = quantile(SES, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
+                  include.lowest = TRUE,
+                  labels = c("Low", "Middle", "High")),
+    calorie_label_usage = recode(calorie_label_usage,
+                                 `1` = "Always",
+                                 `2` = "Most of the time",
+                                 `3` = "Sometimes",
+                                 `4` = "Rarely",
+                                 `5` = "Never"),
+    calorie_label_usage = factor(calorie_label_usage, 
+                                 levels = c("Never", "Rarely", "Sometimes", "Most of the time", "Always"))
+  ) %>% 
+  count(SES_group, calorie_label_usage) %>%
+  ggplot(aes(x = SES_group, y = calorie_label_usage, fill = n)) + 
+  geom_tile(color = "white") + 
+  scale_fill_viridis_c(option = "D") +
+  theme_minimal() +
+  labs(
+    x = "SES",
+    y = "Frequency of Calorie Label Checking for Weight Management",
+    fill = "Count",
+    title = "Calorie Label Checking by SES Group"
+  )
+```
+:::
+
+::: incremental
+### SES and Weight Loss Behaviors
+
+```{r}
+weight3 <- import(here("data", "sesdata.rds"))
+```
+
+```{r}
+weight3 %>%
+  ggplot(aes(x = SES, y = weight_loss_behavior_type, fill = weight_loss_behavior_type)) +
+  geom_density_ridges(alpha = 0.8) +  
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  stat_summary(
+    aes(label = weight_loss_behavior_type),  
+    fun = median, 
+    geom = "text",
+    color = "white",  
+    size = 2,  
+    hjust = 0.8,  
+    vjust = -3
+  ) +
+  theme(axis.text.y = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank()) +
+  scale_x_continuous(breaks = c(1, 4),
+                     labels = c("Low", "High")) +
+  labs(x = "SES", y = "Weight Loss Behavior Type", fill = "Weight Loss Method",
+       title = "Variation in Weight Loss Methods Across SES Groups")
+```
+:::
+
+::: incremental
+### SES and Dining Location Choice
+
+```{r}
+weight4 <- import(here("data", "sesdata.rds"))
+```
+
+```{r}
+weight4$SES_group2 <- cut(weight4$SES,
+                         breaks = quantile(weight4$SES, probs = c(0, 0.5, 1), na.rm = TRUE),
+                         include.lowest = TRUE,
+                         labels = c("Low", "High"))
+
+weight_summary4 <- weight4 %>%
+  count(SES_group2, dininglocation)
+
+weight_summary4$dininglocation <- factor(weight_summary4$dininglocation, 
+                                         levels = c("fastfood", "buffet", "restaurant"))
+
+ggplot(weight_summary4) +
+  geom_mosaic(aes(weight = n, x = product(SES_group2), fill = dininglocation)) +
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  labs(x = "SES", y = "Proportion of Dining Location", fill = "Dining Location",
+       title = "Dining Preferences by Socioeconomic Status",
+       caption = "Respondents could select multiple dining locations")
+```
+:::
+
+## In-Depth Discussion: Plot 1. SES and Weight Perception
+
+::: incremental
+### Intended Audience
+
+-   Intended audience for this plot is blah blah blah 
+:::
+
+::: incremental
+### Design Choice
+
+```{r}
+weight1 %>%
+ggplot(aes(x = SES, y = BMI, color = weight_perception)) +
+  geom_jitter(width = 0.2, alpha = 0.7) +
+  ylim(NA, 50) +
+  scale_color_viridis_d() +
+  theme_minimal() +
+  scale_x_continuous(breaks = c(1, 4),
+                     labels = c("Low", "High")) +
+  labs(x = "SES", y = "BMI", color = "Weight Perception",
+       title = "Differences in Weight Perception by SES at the Same BMI")
+```
+
+-   Type of plot
+-   Layout
+-   Colors
+:::
+
+::: incremental
+### Prior version & Change
+```{r}
+weight1 %>%
+ggplot(aes(x = SES, y = BMI, color = weight_perception)) +
+  geom_jitter(width = 0.2, alpha = 0.7) +
+  theme_minimal()
+```
+
+-   y limit
+-   color change
+-   title, labs 
+:::
+
+::: incremental
+### Encountered Challenge
+
+-   Can't really interpret 
+:::
+
+::: incremental
+### Victory
+
+-   I anyhow made it
+:::
+
+## In-Depth Discussion: Plot 2. SES and Calorie Label Checking for Weight
+
+::: incremental
+### Intended Audience
+
+-   Intended audience for this plot is blah blah blah 
+:::
+
+::: incremental
+### Design Choice
+
+```{r}
+weight2 %>%
+  mutate(
+    SES_group = cut(SES, 
+                  breaks = quantile(SES, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
+                  include.lowest = TRUE,
+                  labels = c("Low", "Middle", "High")),
+    calorie_label_usage = recode(calorie_label_usage,
+                                 `1` = "Always",
+                                 `2` = "Most of the time",
+                                 `3` = "Sometimes",
+                                 `4` = "Rarely",
+                                 `5` = "Never"),
+    calorie_label_usage = factor(calorie_label_usage, 
+                                 levels = c("Never", "Rarely", "Sometimes", "Most of the time", "Always"))
+  ) %>% 
+  count(SES_group, calorie_label_usage) %>%
+  ggplot(aes(x = SES_group, y = calorie_label_usage, fill = n)) + 
+  geom_tile(color = "white") + 
+  scale_fill_viridis_c(option = "D") +
+  theme_minimal() +
+  labs(
+    x = "SES",
+    y = "Frequency of Calorie Label Checking for Weight Management",
+    fill = "Count",
+    title = "Calorie Label Checking by SES Group"
+  )
+```
+
+-   Type of plot
+-   Layout
+-   Colors
+:::
+
+::: incremental
+### Prior version & Change
+```{r}
+weight2 %>%
+  mutate(SES_bin = cut(SES, breaks = 3)) %>% 
+  ggplot(aes(x = SES_bin, y = factor(calorie_label_usage))) +
+  geom_bin2d() +
+  scale_fill_gradient(low = "white", high = "blue") +
+  theme_minimal() 
+```
+
+-   SES group divide by quantile 
+-   color change
+-   Geom_bin2d to geom_tile
+:::
+
+::: incremental
+### Encountered Challenge
+
+-   color not instinctive to in grasp the meaning?
+:::
+
+::: incremental
+### Victory
+
+-   I anyhow made it
+-   renaming frequency number and factor ordering 
+:::

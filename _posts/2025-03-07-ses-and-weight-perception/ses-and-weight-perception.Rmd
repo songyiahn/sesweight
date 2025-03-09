@@ -1,7 +1,7 @@
 ---
 title: "SES and Weight Perception"
 description: |
-  How does socioeconomic status (SES) influence individual's perceptions of their own weight?
+  How is socioeconomic status (SES) associated with an individual's perceptions of their own weight?
 author: [Songyi Ahn]
 date: 2025-03-07
 output:
@@ -25,10 +25,15 @@ weight1 <- import(here("data", "sesdata.rds"))
 
 # First Draft
 ```{r}
-ggplot(weight1, aes(x = BMI, y = SES, color = weight_perception)) +
-  geom_jitter(width = 0.2, alpha = 0.5) +
-  xlim(NA, 50) +
+weight1 %>%
+ggplot(aes(x = SES, y = BMI, color = weight_perception)) +
+  geom_jitter(width = 0.2, alpha = 0.7) +
+  ylim(NA, 50) +
+  scale_color_viridis_d() +
   theme_minimal() +
-  labs(x = "BMI", y = "SES", color = "Weight Perception")
+  scale_x_continuous(breaks = c(1, 4),
+                     labels = c("Low", "High")) +
+  labs(x = "SES", y = "BMI", color = "Weight Perception",
+       title = "Differences in Weight Perception by SES at the Same BMI")
 ```
 

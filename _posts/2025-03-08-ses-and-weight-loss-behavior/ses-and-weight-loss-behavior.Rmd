@@ -1,7 +1,7 @@
 ---
 title: "SES and Weight Loss Behavior"
 description: |
-  How does socioeconomic status (SES) influence engagement in various weight loss behaviors?
+  How is socioeconomic status (SES) associated with engagement in various weight loss behaviors?
 author: [Songyi Ahn]
 date: 2025-03-08
 output:
@@ -39,13 +39,19 @@ weight3 %>%
   scale_fill_viridis_d() +
   theme_minimal() +
   stat_summary(
-    aes(label = weight_loss_behavior_type),  # 레이블 내용
-    fun = median,  # 중앙값에 위치하도록 설정
+    aes(label = weight_loss_behavior_type),  
+    fun = median, 
     geom = "text",
-    color = "white",  # 글씨 색깔
-    size = 2,  # 글씨 크기
-    hjust = 0.8,  # 위치 조정 (왼쪽으로 약간 이동)
+    color = "white",  
+    size = 2,  
+    hjust = 0.8,  
     vjust = -3
   ) +
-  theme(axis.text.y = element_blank())  # y축 라벨 제거
+  theme(axis.text.y = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank()) +
+  scale_x_continuous(breaks = c(1, 4),
+                     labels = c("Low", "High")) +
+  labs(x = "SES", y = "Weight Loss Behavior Type", fill = "Weight Loss Method",
+       title = "Variation in Weight Loss Methods Across SES Groups")
 ```
