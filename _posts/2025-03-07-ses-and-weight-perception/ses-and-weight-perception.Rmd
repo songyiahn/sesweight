@@ -28,6 +28,14 @@ weight1 <- import(here("data", "sesdata.rds"))
 weight1 %>%
 ggplot(aes(x = SES, y = BMI, color = weight_perception)) +
   geom_jitter(width = 0.2, alpha = 0.7) +
+  theme_minimal()
+```
+
+# Second Draft
+```{r}
+weight1 %>%
+ggplot(aes(x = SES, y = BMI, color = weight_perception)) +
+  geom_jitter(width = 0.2, alpha = 0.7) +
   ylim(NA, 50) +
   scale_color_viridis_d() +
   theme_minimal() +
