@@ -7,7 +7,6 @@ date: 2025-03-07
 output:
   distill::distill_article:
     self_contained: false
-image: "plot33.png"
 ---
 
 ```{r setup, include=FALSE}
@@ -70,27 +69,23 @@ weight3$weight_loss_behavior_type <- factor(weight3$weight_loss_behavior_type,
                                            levels = rev(c("exercise", "diet_change", "less_eating", "professional_help", "Perform Harmful Behaviors")),
                                            labels = rev(c("Exercise", "Change Diet", "Eating Less", "Get Professional Help", "Perform Harmful Behaviors*")))
 
-plot33 <- weight3 %>%
+weight3 %>%
   ggplot(aes(x = SES, y = weight_loss_behavior_type, fill = weight_loss_behavior_type)) +
   geom_density_ridges(alpha = 0.5) +  
   scale_fill_viridis_d() +
   theme_minimal() +
   theme(panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        plot.caption = element_text(hjust = -1.25),
+        plot.caption = element_text(hjust = 5),
         legend.position = "none") +
   scale_x_continuous(breaks = c(0.4, 4.5),
                      labels = c("Lower SES", "Higher SES")) +
   labs(x = "Socioeconomic Status", y = NULL, fill = "Weight Loss Method",
        title = "Trends in Weight Loss Methods Across Socioeconomic Status(SES)",
        caption = "*'Harmful Behaviors' include the use of non-prescription pills, laxatives, vomiting, and smoking")
-
-ggsave("plot33.png", plot33, width=8, height=5, dpi = 150)
 ```
 
 <div>
-  <img id="plot33" src="plot33.png" style="width: 100%; height: auto;">
-
   <button onclick="showPlot('plot31')">Draft 1</button>
   <button onclick="showPlot('plot32')">Draft 2</button>
 </div>
