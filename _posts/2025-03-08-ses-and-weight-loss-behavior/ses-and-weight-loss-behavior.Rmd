@@ -62,35 +62,27 @@ ggsave("plot32.png", plot32, width=6, height=4, dpi = 150)
 ```{r}
 weight3 <- weight3 %>%
   mutate(weight_loss_behavior_type = recode(weight_loss_behavior_type,
-                                           "risky_behaviors(laxative, vomit, non-prescription pill, smoke)" = "Perform Risky Behaviors"))
+                                           "risky_behaviors(laxative, vomit, non-prescription pill, smoke)" = "Perform Harmful Behaviors"))
 
 weight3$weight_loss_behavior_type <- factor(weight3$weight_loss_behavior_type, 
-                                           levels = c("exercise", "diet_change", "less_eating", "professional_help", "Perform Risky Behaviors", "other"),
-                                           labels = c("Exercise", "Change Diet", "Eating Less", "Get Professional Help", "Perform Risky Behaviors", "Other"))
+                                           levels = c("exercise", "diet_change", "less_eating", "professional_help", "Perform Harmful Behaviors", "other"),
+                                           labels = c("Exercise", "Change Diet", "Eating Less", "Get Professional Help", "Perform Harmful Behaviors", "Other"))
 
-plot33 <- weight3 %>%
+plot33 <- 
+  
+  weight3 %>%
   ggplot(aes(x = SES, y = weight_loss_behavior_type, fill = weight_loss_behavior_type)) +
   geom_density_ridges(alpha = 0.8) +  
   scale_fill_viridis_d() +
   theme_minimal() +
-  stat_summary(
-    aes(label = weight_loss_behavior_type),  
-    fun = median, 
-    geom = "text",
-    color = "black",  
-    size = 4,  
-    hjust = 0.8,  
-    vjust = -3
-  ) +
-  theme(axis.text.y = element_blank(),
-        panel.grid.major.x = element_blank(),
+  theme(panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank()) +
   scale_x_continuous(breaks = c(1, 4),
                      labels = c("Low", "High")) +
   labs(x = "SES", y = "Weight Loss Behavior Type", fill = "Weight Loss Method",
        title = "Variation in Weight Loss Methods Across SES Groups")
 
-ggsave("plot33.png", plot33, width=6, height=4, dpi = 150)
+ggsave("plot33.png", plot33, width=8, height=5, dpi = 150)
 ```
 
 <div>
