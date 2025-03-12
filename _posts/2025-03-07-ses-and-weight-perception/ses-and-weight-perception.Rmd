@@ -34,8 +34,11 @@ ggplot(aes(x = SES, y = BMI, color = weight_perception)) +
 # Second Draft
 ```{r}
 weight1 %>%
-ggplot(aes(x = SES, y = BMI, color = weight_perception)) +
-  geom_jitter(width = 0.2, alpha = 0.7) +
+ggplot(aes(x = SES, y = BMI)) +
+  geom_point(aes(color = weight_perception)) +  
+  geom_smooth(data = weight1 %>% filter(weight_perception %in% c("overweight", "right weight")),
+              aes(color = weight_perception),
+              method = "lm", se = FALSE) +
   ylim(NA, 50) +
   scale_color_viridis_d() +
   theme_minimal() +
@@ -44,4 +47,10 @@ ggplot(aes(x = SES, y = BMI, color = weight_perception)) +
   labs(x = "SES", y = "BMI", color = "Weight Perception",
        title = "Differences in Weight Perception by SES at the Same BMI")
 ```
+
+# Final Plot
+```{r}
+
+```
+
 

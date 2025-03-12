@@ -3,7 +3,7 @@ title: "SES and Weight Loss Behavior"
 description: |
   How is socioeconomic status (SES) associated with engagement in various weight loss behaviors?
 author: [Songyi Ahn]
-date: 2025-03-08
+date: 2025-03-07
 output:
   distill::distill_article:
     self_contained: false
@@ -24,16 +24,16 @@ library(ggridges)
 weight3 <- import(here("data", "sesdata.rds"))
 ```
 
-# First Draft
 ```{r}
-weight3 %>%
+plot31 <- weight3 %>%
   ggplot(aes(x = SES, y = weight_loss_behavior_type, group = weight_loss_behavior_type)) +
   geom_density_ridges()
+
+ggsave("plot31.png", plot31, width=6, height=4, dpi = 150)
 ```
 
-# Second Draft
 ```{r}
-weight3 %>%
+plot32 <- weight3 %>%
   ggplot(aes(x = SES, y = weight_loss_behavior_type, fill = weight_loss_behavior_type)) +
   geom_density_ridges(alpha = 0.8) +  
   scale_fill_viridis_d() +
@@ -54,4 +54,65 @@ weight3 %>%
                      labels = c("Low", "High")) +
   labs(x = "SES", y = "Weight Loss Behavior Type", fill = "Weight Loss Method",
        title = "Variation in Weight Loss Methods Across SES Groups")
+
+ggsave("plot32.png", plot32, width=6, height=4, dpi = 150)
 ```
+
+# Final Plot
+```{r}
+weight3 <- weight3 %>%
+  mutate(weight_loss_behavior_type = recode(weight_loss_behavior_type,
+                                           "risky_behaviors(laxative, vomit, non-prescription pill, smoke)" = "Perform Risky Behaviors"))
+
+weight3$weight_loss_behavior_type <- factor(weight3$weight_loss_behavior_type, 
+                                           levels = c("exercise", "diet_change", "less_eating", "professional_help", "Perform Risky Behaviors", "other"),
+                                           labels = c("Exercise", "Change Diet", "Eating Less", "Get Professional Help", "Perform Risky Behaviors", "Other"))
+
+plot33 <- weight3 %>%
+  ggplot(aes(x = SES, y = weight_loss_behavior_type, fill = weight_loss_behavior_type)) +
+  geom_density_ridges(alpha = 0.8) +  
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  stat_summary(
+    aes(label = weight_loss_behavior_type),  
+    fun = median, 
+    geom = "text",
+    color = "black",  
+    size = 4,  
+    hjust = 0.8,  
+    vjust = -3
+  ) +
+  theme(axis.text.y = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank()) +
+  scale_x_continuous(breaks = c(1, 4),
+                     labels = c("Low", "High")) +
+  labs(x = "SES", y = "Weight Loss Behavior Type", fill = "Weight Loss Method",
+       title = "Variation in Weight Loss Methods Across SES Groups")
+
+ggsave("plot33.png", plot33, width=6, height=4, dpi = 150)
+```
+
+<div>
+  <img id="plot33" src="plot33.png" style="width: 100%; height: auto;">
+
+  <button onclick="showPlot('plot31')">Draft 1</button>
+  <button onclick="showPlot('plot32')">Draft 2</button>
+</div>
+
+<div>
+(Click the Draft buttons to view previous plots)
+</div>
+
+<div id="plot-container">
+  <img id="plot31" src="plot31.png">
+  <img id="plot32" src="plot32.png" style="display:none; width: 100%; height: auto;">
+</div>
+
+<script>
+  function showPlot(plotId) {
+    document.getElementById('plot31').style.display = "none";
+    document.getElementById('plot32').style.display = "none";
+    document.getElementById(plotId).style.display = "block";
+  }
+</script>

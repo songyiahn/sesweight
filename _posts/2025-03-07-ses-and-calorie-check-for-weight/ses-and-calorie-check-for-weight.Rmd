@@ -36,21 +36,6 @@ weight2 %>%
 # Second Draft
 ```{r}
 weight2 %>%
-  mutate(SES_bin = cut(SES, 
-                       breaks = quantile(SES, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
-                       include.lowest = TRUE,
-                       labels = c("Low", "Middle", "High"))) %>% 
-  ggplot(aes(x = SES_bin, y = factor(calorie_label_usage))) + 
-  geom_bin2d() +
-  scale_fill_viridis_c(option = "D") +
-  theme_minimal() +
-  labs(x = "SES", y = "Frequency of Calorie Label Checking for Weight Management", fill = "Count",
-      title = "Calorie label Checking by SES Group")
-```
-
-# Third Draft
-```{r}
-weight2 %>%
   mutate(
     SES_group = cut(SES, 
                   breaks = quantile(SES, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
@@ -76,5 +61,10 @@ weight2 %>%
     fill = "Count",
     title = "Calorie Label Checking by SES Group"
   )
+```
+
+# Final Plot
+```{r}
+
 ```
 

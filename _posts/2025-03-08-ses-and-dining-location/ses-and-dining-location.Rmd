@@ -3,7 +3,7 @@ title: "SES and Dining Location"
 description: |
   How is socioeconomic status (SES) associated with individuals choices of dining locations?
 author: [Songyi Ahn]
-date: 2025-03-08
+date: 2025-03-07
 output:
   distill::distill_article:
     self_contained: false
@@ -24,7 +24,6 @@ library(ggmosaic)
 weight4 <- import(here("data", "sesdata.rds"))
 ```
 
-# First Draft
 ```{r}
 weight4$SES_group3 <- cut(weight4$SES,
                          breaks = quantile(weight4$SES, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
@@ -37,13 +36,14 @@ weight_summary4 <- weight4 %>%
 weight_summary4$dininglocation <- factor(weight_summary4$dininglocation, 
                                         levels = c("fastfood", "buffet", "restaurant"))
 
-ggplot(weight_summary4) +
+plot41 <- ggplot(weight_summary4) +
   geom_mosaic(aes(weight = n, x = product(SES_group3), fill = dininglocation)) +
   scale_fill_viridis_d() +
   theme_minimal()
+
+ggsave("plot41.png", plot41, width=6, height=4, dpi = 150)
 ```
 
-# Second Draft
 ```{r}
 weight4$SES_group2 <- cut(weight4$SES,
                          breaks = quantile(weight4$SES, probs = c(0, 0.5, 1), na.rm = TRUE),
@@ -56,11 +56,65 @@ weight_summary4 <- weight4 %>%
 weight_summary4$dininglocation <- factor(weight_summary4$dininglocation, 
                                          levels = c("fastfood", "buffet", "restaurant"))
 
-ggplot(weight_summary4) +
+plot42 <- ggplot(weight_summary4) +
   geom_mosaic(aes(weight = n, x = product(SES_group2), fill = dininglocation)) +
   scale_fill_viridis_d() +
   theme_minimal() +
   labs(x = "SES", y = "Proportion of Dining Location", fill = "Dining Location",
        title = "Dining Preferences by Socioeconomic Status",
        caption = "Respondents could select multiple dining locations")
+
+ggsave("plot42.png", plot42, width=6, height=4, dpi = 150)
 ```
+
+# Final Plot
+```{r}
+weight4 <- weight4 %>%
+  mutate(dininglocation = recode(dininglocation,
+                                           "fastfood" = "Fastfood or Pizza Place", "buffet" = "All-You-Can-It Buffet", "restaurant" = "Restaurant with Server"))
+
+weight4$SES_group2 <- cut(weight4$SES,
+                         breaks = quantile(weight4$SES, probs = c(0, 0.5, 1), na.rm = TRUE),
+                         include.lowest = TRUE,
+                         labels = c("Low", "High"))
+
+weight_summary4 <- weight4 %>%
+  count(SES_group2, dininglocation)
+
+weight_summary4$dininglocation <- factor(weight_summary4$dininglocation, 
+                                         levels = c("Fastfood or Pizza Place", "All-You-Can-It Buffet", "Restaurant with Server"))
+
+plot43 <- ggplot(weight_summary4) +
+  geom_mosaic(aes(weight = n, x = product(SES_group2), fill = dininglocation)) +
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  labs(x = "SES", y = "Proportion of Dining Location", fill = "Dining Location",
+       title = "Dining Preferences by Socioeconomic Status",
+       caption = "Respondents could select multiple dining locations")
+
+ggsave("plot43.png", plot43, width=6, height=4, dpi = 150)
+```
+
+<div>
+  <img id="plot43" src="plot43.png" style="width: 100%; height: auto;">
+
+  <button onclick="showPlot('plot41')">Draft 1</button>
+  <button onclick="showPlot('plot42')">Draft 2</button>
+</div>
+
+<div>
+(Click the Draft buttons to view previous plots)
+</div>
+
+<div id="plot-container">
+  <img id="plot41" src="plot41.png">
+  <img id="plot42" src="plot42.png" style="display:none; width: 100%; height: auto;">
+</div>
+
+<script>
+  function showPlot(plotId) {
+    document.getElementById('plot41').style.display = "none";
+    document.getElementById('plot42').style.display = "none";
+    document.getElementById(plotId).style.display = "block";
+  }
+</script>
