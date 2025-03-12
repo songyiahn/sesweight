@@ -48,7 +48,7 @@ ggplot(aes(x = SES, y = BMI)) +
        title = "Differences in Weight Perception by SES at the Same BMI")
 ```
 
-# Final Plot
+### Final Plot
 ```{r}
 
 ```

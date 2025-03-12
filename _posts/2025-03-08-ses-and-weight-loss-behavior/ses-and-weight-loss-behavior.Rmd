@@ -7,6 +7,7 @@ date: 2025-03-07
 output:
   distill::distill_article:
     self_contained: false
+image: "plot33.png"
 ---
 
 ```{r setup, include=FALSE}
@@ -58,29 +59,31 @@ plot32 <- weight3 %>%
 ggsave("plot32.png", plot32, width=6, height=4, dpi = 150)
 ```
 
-# Final Plot
+### Final Plot
 ```{r}
 weight3 <- weight3 %>%
   mutate(weight_loss_behavior_type = recode(weight_loss_behavior_type,
-                                           "risky_behaviors(laxative, vomit, non-prescription pill, smoke)" = "Perform Harmful Behaviors"))
+                                           "risky_behaviors(laxative, vomit, non-prescription pill, smoke)" = "Perform Harmful Behaviors")) %>%
+  filter(weight_loss_behavior_type != "other")
 
 weight3$weight_loss_behavior_type <- factor(weight3$weight_loss_behavior_type, 
-                                           levels = c("exercise", "diet_change", "less_eating", "professional_help", "Perform Harmful Behaviors", "other"),
-                                           labels = c("Exercise", "Change Diet", "Eating Less", "Get Professional Help", "Perform Harmful Behaviors", "Other"))
+                                           levels = rev(c("exercise", "diet_change", "less_eating", "professional_help", "Perform Harmful Behaviors")),
+                                           labels = rev(c("Exercise", "Change Diet", "Eating Less", "Get Professional Help", "Perform Harmful Behaviors*")))
 
-plot33 <- 
-  
-  weight3 %>%
+plot33 <- weight3 %>%
   ggplot(aes(x = SES, y = weight_loss_behavior_type, fill = weight_loss_behavior_type)) +
-  geom_density_ridges(alpha = 0.8) +  
+  geom_density_ridges(alpha = 0.5) +  
   scale_fill_viridis_d() +
   theme_minimal() +
   theme(panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank()) +
-  scale_x_continuous(breaks = c(1, 4),
-                     labels = c("Low", "High")) +
-  labs(x = "SES", y = "Weight Loss Behavior Type", fill = "Weight Loss Method",
-       title = "Variation in Weight Loss Methods Across SES Groups")
+        panel.grid.minor.x = element_blank(),
+        plot.caption = element_text(hjust = -1.25),
+        legend.position = "none") +
+  scale_x_continuous(breaks = c(0.4, 4.5),
+                     labels = c("Lower SES", "Higher SES")) +
+  labs(x = "Socioeconomic Status", y = NULL, fill = "Weight Loss Method",
+       title = "Trends in Weight Loss Methods Across Socioeconomic Status(SES)",
+       caption = "*'Harmful Behaviors' include the use of non-prescription pills, laxatives, vomiting, and smoking")
 
 ggsave("plot33.png", plot33, width=8, height=5, dpi = 150)
 ```

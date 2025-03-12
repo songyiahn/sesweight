@@ -67,7 +67,7 @@ plot42 <- ggplot(weight_summary4) +
 ggsave("plot42.png", plot42, width=6, height=4, dpi = 150)
 ```
 
-# Final Plot
+### Final Plot
 ```{r}
 weight4 <- weight4 %>%
   mutate(dininglocation = recode(dininglocation,
