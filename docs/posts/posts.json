@@ -28,10 +28,10 @@
     ],
     "date": "2025-03-07",
     "categories": [],
-    "contents": "\n\n\n\n\n\n\nFirst Draft\n\n\n\nSecond Draft\n\n\n\n\n\n\n",
-    "preview": "posts/2025-03-07-ses-and-weight-perception/ses-and-weight-perception_files/figure-html5/unnamed-chunk-3-1.png",
-    "last_modified": "2025-03-08T18:00:40-08:00",
-    "input_file": {}
+    "contents": "\n\n\n\n\n\n\n\n\n\n\n\n\nFinal Plot\n\n\n\n\nDraft 1\nDraft 2\n\n\n(Click the Draft buttons to view previous plots)\n\n\n\n\n\n\n\n",
+    "preview": "posts/2025-03-07-ses-and-weight-perception/ses-and-weight-perception_files/figure-html5/unnamed-chunk-5-1.png",
+    "last_modified": "2025-03-13T16:05:33-07:00",
+    "input_file": "ses-and-weight-perception.knit.md"
   },
   {
     "path": "posts/2025-03-08-ses-and-dining-location/",
@@ -47,7 +47,7 @@
     "categories": [],
     "contents": "\n\n\n\n\n\n\n\n\n\n\n\n\nFinal Plot\n\n\n\n\nDraft 1\nDraft 2\n\n\n(Click the Draft buttons to view previous plots)\n\n\n\n\n\n\n\n",
     "preview": "posts/2025-03-08-ses-and-dining-location/ses-and-dining-location_files/figure-html5/unnamed-chunk-5-1.png",
-    "last_modified": "2025-03-13T11:22:27-07:00",
+    "last_modified": "2025-03-13T16:04:54-07:00",
     "input_file": {}
   },
   {
@@ -64,7 +64,7 @@
     "categories": [],
     "contents": "\n\n\n\n\n\n\n\n\n\n\n\n\nFinal Plot\n\n\n\n\nDraft 1\nDraft 2\n\n\n(Click the Draft buttons to view previous plots)\n\n\n\n\n\n\n\n",
     "preview": "posts/2025-03-08-ses-and-weight-loss-behavior/ses-and-weight-loss-behavior_files/figure-html5/unnamed-chunk-5-1.png",
-    "last_modified": "2025-03-13T11:23:30-07:00",
+    "last_modified": "2025-03-13T16:03:59-07:00",
     "input_file": {}
   }
 ]

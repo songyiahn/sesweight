@@ -23,17 +23,17 @@ library(tidyverse)
 weight1 <- import(here("data", "sesdata.rds"))
 ```
 
-# First Draft
 ```{r}
-weight1 %>%
+plot11 <- weight1 %>%
 ggplot(aes(x = SES, y = BMI, color = weight_perception)) +
   geom_jitter(width = 0.2, alpha = 0.7) +
   theme_minimal()
+
+ggsave("plot11.png", plot11, width=4.5, height=3, dpi = 150)
 ```
 
-# Second Draft
 ```{r}
-weight1 %>%
+plot12 <- weight1 %>%
 ggplot(aes(x = SES, y = BMI)) +
   geom_point(aes(color = weight_perception)) +  
   geom_smooth(data = weight1 %>% filter(weight_perception %in% c("overweight", "right weight")),
@@ -46,11 +46,52 @@ ggplot(aes(x = SES, y = BMI)) +
                      labels = c("Low", "High")) +
   labs(x = "SES", y = "BMI", color = "Weight Perception",
        title = "Differences in Weight Perception by SES at the Same BMI")
+
+ggsave("plot12.png", plot12, width=6, height=4, dpi = 150)
 ```
 
 ### Final Plot
 ```{r}
+weight1$SES_group2 <- cut(weight1$SES,
+                         breaks = quantile(weight1$SES, probs = c(0, 0.5, 1), na.rm = TRUE),
+                         include.lowest = TRUE,
+                         labels = c("Low", "High"))
 
+weight1$SES_group2 <- factor(weight1$SES_group2, levels = c("Low", "High"))
+
+weight1 <- weight1 %>%
+  distinct(SEQN, .keep_all = TRUE)
+
+ggplot(weight1, aes(x = SES_group2, y = BMI, fill = weight_perception)) +
+  geom_boxplot() +
+  ylim(NA, 45) +
+  labs(x = "SES",
+       y= "BMI",
+       title = "BMI by Weight Perception Across SES",
+       fill = "Weight Perception") +
+  scale_fill_viridis_d(option = "viridis", alpha = 0.8) +
+  theme_minimal() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank())
 ```
+<div>
+  <button onclick="showPlot('plot11')">Draft 1</button>
+  <button onclick="showPlot('plot12')">Draft 2</button>
+</div>
 
+<div>
+(Click the Draft buttons to view previous plots)
+</div>
 
+<div id="plot-container">
+  <img id="plot11" src="plot11.png">
+  <img id="plot12" src="plot12.png" style="display:none; width: 100%; height: auto;">
+</div>
+
+<script>
+  function showPlot(plotId) {
+    document.getElementById('plot11').style.display = "none";
+    document.getElementById('plot12').style.display = "none";
+    document.getElementById(plotId).style.display = "block";
+  }
+</script>

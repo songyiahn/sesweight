@@ -100,7 +100,7 @@ weight_summary4$dininglocation <- factor(weight_summary4$dininglocation,
 
 plot43 <- ggplot(weight_summary4) +
   geom_mosaic(aes(weight = n, x = product(SES_group21), fill = dininglocation)) +
-  scale_fill_viridis_d(guide = guide_legend(reverse = TRUE)) +
+  scale_fill_viridis_d(option = "plasma", guide = guide_legend(reverse = TRUE)) +
   theme_minimal() +
   theme(panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),

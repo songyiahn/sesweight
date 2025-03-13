@@ -72,7 +72,7 @@ weight3$weight_loss_behavior_type <- factor(weight3$weight_loss_behavior_type,
 weight3 %>%
   ggplot(aes(x = SES, y = weight_loss_behavior_type, fill = weight_loss_behavior_type)) +
   geom_density_ridges(alpha = 0.5) +  
-  scale_fill_viridis_d() +
+  scale_fill_viridis_d(option = "magma") +
   theme_minimal() +
   theme(panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
