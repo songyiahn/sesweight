@@ -64,7 +64,10 @@ weight1 <- weight1 %>%
 
 ggplot(weight1, aes(x = SES_group2, y = BMI, fill = weight_perception)) +
   geom_boxplot() +
-  ylim(NA, 45) +
+  scale_y_continuous(breaks = c(18.5, 20, 25, 30, 35, 40, 45),
+                     labels = c("Underweight\n(<18.5)", "20", "Healthy Range\n(18.5-25)", "Overweight\n(25-30)", 
+                                "Obesity\n(30-40)", "35", "Extremely Obesity\n(40<)")) +
+  coord_cartesian(ylim = c(NA, 45)) +
   labs(x = "SES",
        y= "BMI",
        title = "BMI by Weight Perception Across SES",
@@ -72,7 +75,9 @@ ggplot(weight1, aes(x = SES_group2, y = BMI, fill = weight_perception)) +
   scale_fill_viridis_d(option = "viridis", alpha = 0.8) +
   theme_minimal() +
   theme(panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank())
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_line(color = "gray", linetype = "dotted", linewidth = 0.5),
+        panel.grid.minor.y = element_blank())
 ```
 <div>
   <button onclick="showPlot('plot11')">Draft 1</button>
