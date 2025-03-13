@@ -18,6 +18,7 @@ library(rio)
 library(here)
 library(tidyverse)
 library(ggmosaic)
+library(scales)
 ```
 
 ```{r}
@@ -71,7 +72,9 @@ ggsave("plot42.png", plot42, width=6, height=4, dpi = 150)
 ```{r}
 weight4 <- weight4 %>%
   mutate(dininglocation = recode(dininglocation,
-                                           "fastfood" = "Fastfood or Pizza Place", "buffet" = "All-You-Can-It Buffet", "restaurant" = "Restaurant with Server"))
+                                 "fastfood" = "Fastfood", 
+                                 "buffet" = "All-You-Can-It Buffet", 
+                                 "restaurant" = "Restaurant with Server"))
 
 weight4$SES_group2 <- cut(weight4$SES,
                          breaks = quantile(weight4$SES, probs = c(0, 0.5, 1), na.rm = TRUE),
@@ -82,22 +85,48 @@ weight_summary4 <- weight4 %>%
   count(SES_group2, dininglocation)
 
 weight_summary4$dininglocation <- factor(weight_summary4$dininglocation, 
-                                         levels = c("Fastfood or Pizza Place", "All-You-Can-It Buffet", "Restaurant with Server"))
+                                         levels = c("fastfood", "buffet", "restaurant"))
 
-plot43 <- ggplot(weight_summary4) +
+weight_summary4 <- weight4 %>%
+  count(SES_group2, dininglocation) %>%
+  group_by(SES_group2) %>%
+  mutate(prop = round(n / sum(n) * 100, 1))
+
+weight_summary4$dininglocation <- factor(weight_summary4$dininglocation, 
+                                         levels = c("Fastfood",
+                                                    "All-You-Can-It Buffet",
+                                                    "Restaurant with Server"))
+
+ggplot(weight_summary4) +
   geom_mosaic(aes(weight = n, x = product(SES_group2), fill = dininglocation)) +
   scale_fill_viridis_d() +
   theme_minimal() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank()) +
   labs(x = "SES", y = "Proportion of Dining Location", fill = "Dining Location",
-       title = "Dining Preferences by Socioeconomic Status",
-       caption = "Respondents could select multiple dining locations")
+       title = "Dining Preferences by Socioeconomic Status")
 
-ggsave("plot43.png", plot43, width=6, height=4, dpi = 150)
+ggplot(weight_summary4, aes(x = SES_group2, y = prop, fill = dininglocation)) + 
+  geom_col(position = "stack", width = 0.99) + 
+  geom_text(aes(label = sprintf("%.1f%%", prop)), 
+            position = position_stack(vjust = 0.5), 
+            color = "black", size = 5) +
+  scale_fill_viridis_d(alpha = 0.8) +
+  theme_minimal() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.grid = element_blank()) +
+  labs(x = "SES", y = NULL, fill = "Dining Location",
+       title = "Dining Preferences by Socioeconomic Status")
 ```
 
 <div>
-  <img id="plot43" src="plot43.png" style="width: 100%; height: auto;">
-
   <button onclick="showPlot('plot41')">Draft 1</button>
   <button onclick="showPlot('plot42')">Draft 2</button>
 </div>
