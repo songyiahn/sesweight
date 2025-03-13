@@ -42,7 +42,7 @@ plot41 <- ggplot(weight_summary4) +
   scale_fill_viridis_d() +
   theme_minimal()
 
-ggsave("plot41.png", plot41, width=6, height=4, dpi = 150)
+ggsave("plot41.png", plot41, width=5, height=3, dpi = 150)
 ```
 
 ```{r}
@@ -76,55 +76,54 @@ weight4 <- weight4 %>%
                                  "buffet" = "All-You-Can-It Buffet", 
                                  "restaurant" = "Restaurant with Server"))
 
-weight4$SES_group2 <- cut(weight4$SES,
-                         breaks = quantile(weight4$SES, probs = c(0, 0.5, 1), na.rm = TRUE),
-                         include.lowest = TRUE,
-                         labels = c("Low", "High"))
+q1 <- quantile(weight4$SES, 0.25, na.rm = TRUE)
+q3 <- quantile(weight4$SES, 0.75, na.rm = TRUE)
 
-weight_summary4 <- weight4 %>%
-  count(SES_group2, dininglocation)
+weight4 <- weight4 %>%
+  mutate(SES_group21 = case_when(
+    SES <= q1 ~ "Low",
+    SES >= q3 ~ "High")) %>%
+  filter(!is.na(SES_group21))
 
-weight_summary4$dininglocation <- factor(weight_summary4$dininglocation, 
-                                         levels = c("fastfood", "buffet", "restaurant"))
+weight4$SES_group21 <- factor(weight4$SES_group21, levels = c("Low", "High"))
 
-weight_summary4 <- weight4 %>%
-  count(SES_group2, dininglocation) %>%
-  group_by(SES_group2) %>%
-  mutate(prop = round(n / sum(n) * 100, 1))
+weight_summary4<- weight4 %>%
+  count(SES_group21, dininglocation) %>%
+  group_by(SES_group21) %>%
+  mutate(prop = round(n / sum(n) * 100, 1)) %>%
+  mutate(prop = paste0(prop, "%"))
 
 weight_summary4$dininglocation <- factor(weight_summary4$dininglocation, 
                                          levels = c("Fastfood",
                                                     "All-You-Can-It Buffet",
                                                     "Restaurant with Server"))
 
-ggplot(weight_summary4) +
-  geom_mosaic(aes(weight = n, x = product(SES_group2), fill = dininglocation)) +
-  scale_fill_viridis_d() +
-  theme_minimal() +
-  theme(panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.y = element_blank(),
-        panel.grid.minor.y = element_blank()) +
-  labs(x = "SES", y = "Proportion of Dining Location", fill = "Dining Location",
-       title = "Dining Preferences by Socioeconomic Status")
-
-ggplot(weight_summary4, aes(x = SES_group2, y = prop, fill = dininglocation)) + 
-  geom_col(position = "stack", width = 0.99) + 
-  geom_text(aes(label = sprintf("%.1f%%", prop)), 
-            position = position_stack(vjust = 0.5), 
-            color = "black", size = 5) +
-  scale_fill_viridis_d(alpha = 0.8) +
+plot43 <- ggplot(weight_summary4) +
+  geom_mosaic(aes(weight = n, x = product(SES_group21), fill = dininglocation)) +
+  scale_fill_viridis_d(guide = guide_legend(reverse = TRUE)) +
   theme_minimal() +
   theme(panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        panel.grid = element_blank()) +
-  labs(x = "SES", y = NULL, fill = "Dining Location",
+        axis.text.y = element_blank()) +
+  labs(x = "SES", y = "Proportion of Dining Location", fill = "Dining Location",
        title = "Dining Preferences by Socioeconomic Status")
+
+plot43d <- ggplot_build(plot43)$data %>% as.data.frame() %>% filter(.wt > 0)
+
+plot43d <- plot43d %>%
+  left_join(weight_summary4, by = c(".wt" = "n", "x__SES_group21" = "SES_group21", "x__fill__dininglocation" = "dininglocation"))
+
+plot431 <- plot43 +
+  geom_label(data = plot43d,
+             aes(x = (xmin + xmax)/2,
+                 y = (ymin + ymax)/2,
+                 label = prop))
+
+plot431
 ```
+
 
 <div>
   <button onclick="showPlot('plot41')">Draft 1</button>

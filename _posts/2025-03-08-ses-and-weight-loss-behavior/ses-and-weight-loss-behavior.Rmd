@@ -29,7 +29,7 @@ plot31 <- weight3 %>%
   ggplot(aes(x = SES, y = weight_loss_behavior_type, group = weight_loss_behavior_type)) +
   geom_density_ridges()
 
-ggsave("plot31.png", plot31, width=6, height=4, dpi = 150)
+ggsave("plot31.png", plot31, width=4.5, height=3, dpi = 150)
 ```
 
 ```{r}
