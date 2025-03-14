@@ -3,7 +3,7 @@ title: "SES and Calorie Check for Weight"
 description: |
   How is socioeconomic status (SES) associated with the frequency of calorie label checking for weight management?
 author: [Songyi Ahn]
-date: 2025-03-07
+date: 2025-03-09
 output:
   distill::distill_article:
     self_contained: false
@@ -65,7 +65,7 @@ plot22 <- weight2 %>%
 ggsave("plot22.png", plot22, width=4.5, height=3, dpi = 150)
 ```
 
-### Final Plot
+### Final Plots
 ```{r, preview = TRUE}
 weight2 <- weight2 %>%
   mutate(
