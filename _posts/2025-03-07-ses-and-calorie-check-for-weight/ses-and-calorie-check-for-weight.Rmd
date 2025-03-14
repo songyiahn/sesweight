@@ -110,7 +110,7 @@ weight2 %>%
   labs(x = NULL,
        y = "Percentage (%)",
        fill = "Socioeconomic Status",
-       title = "Calorie Label Checking Proportion by SES") +
+       title = "Calorie Label Checking Percentage by SES") +
   geom_text(aes(label = paste0(round(percentage, 1), "%")),
             position = position_dodge(width = 0.8),
             vjust = 0.5,
