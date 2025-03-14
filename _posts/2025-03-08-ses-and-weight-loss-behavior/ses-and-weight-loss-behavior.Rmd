@@ -59,7 +59,7 @@ ggsave("plot32.png", plot32, width=6, height=4, dpi = 150)
 ```
 
 ## Final Plot
-```{r}
+```{r, fig.width=8, fig.height=6}
 weight3 <- weight3 %>%
   mutate(weight_loss_behavior_type = recode(weight_loss_behavior_type,
                                            "risky_behaviors(laxative, vomit, non-prescription pill, smoke)" = "Perform Harmful Behaviors")) %>%
@@ -76,7 +76,7 @@ weight3 %>%
   theme_minimal() +
   theme(panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        plot.caption = element_text(hjust = 3),
+        plot.caption = element_text(hjust = -1.5),
         legend.position = "none",
         plot.margin = margin(5, 20, 5, 5)) +
   scale_x_continuous(breaks = c(0.4, 4.5),
