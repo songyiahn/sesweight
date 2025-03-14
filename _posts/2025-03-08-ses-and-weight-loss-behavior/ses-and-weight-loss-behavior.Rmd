@@ -58,7 +58,7 @@ plot32 <- weight3 %>%
 ggsave("plot32.png", plot32, width=6, height=4, dpi = 150)
 ```
 
-### Final Plot
+## Final Plot
 ```{r}
 weight3 <- weight3 %>%
   mutate(weight_loss_behavior_type = recode(weight_loss_behavior_type,
@@ -71,19 +71,25 @@ weight3$weight_loss_behavior_type <- factor(weight3$weight_loss_behavior_type,
 
 weight3 %>%
   ggplot(aes(x = SES, y = weight_loss_behavior_type, fill = weight_loss_behavior_type)) +
-  geom_density_ridges(alpha = 0.5) +  
+  geom_density_ridges(alpha = 0.8) +  
   scale_fill_viridis_d(option = "magma") +
   theme_minimal() +
   theme(panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        plot.caption = element_text(hjust = 5),
-        legend.position = "none") +
+        plot.caption = element_text(hjust = 3),
+        legend.position = "none",
+        plot.margin = margin(5, 20, 5, 5)) +
   scale_x_continuous(breaks = c(0.4, 4.5),
                      labels = c("Lower SES", "Higher SES")) +
   labs(x = "Socioeconomic Status", y = NULL, fill = "Weight Loss Method",
-       title = "Trends in Weight Loss Methods Across Socioeconomic Status(SES)",
-       caption = "*'Harmful Behaviors' include the use of non-prescription pills, laxatives, vomiting, and smoking")
+       title = "Choice of Weight Loss Methods by SES",
+       caption = "*'Harmful Behaviors' include the use of non-prescription pills, laxatives, vomiting, and smoking") +
+  coord_cartesian(clip = "off")
 ```
+Data Source: [NHANES 2017-March 2020](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2017-2020)
+
+<div style="height: 30px;">
+</div>
 
 <div>
   <button onclick="showPlot('plot31')">Draft 1</button>

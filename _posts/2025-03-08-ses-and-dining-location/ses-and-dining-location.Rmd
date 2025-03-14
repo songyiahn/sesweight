@@ -61,14 +61,15 @@ plot42 <- ggplot(weight_summary4) +
   geom_mosaic(aes(weight = n, x = product(SES_group2), fill = dininglocation)) +
   scale_fill_viridis_d() +
   theme_minimal() +
-  labs(x = "SES", y = "Proportion of Dining Location", fill = "Dining Location",
+  labs(x = "SES", y = "Dining Location", fill = "Dining Location",
        title = "Dining Preferences by Socioeconomic Status",
        caption = "Respondents could select multiple dining locations")
 
 ggsave("plot42.png", plot42, width=6, height=4, dpi = 150)
 ```
 
-### Final Plot
+## Final Plot
+
 ```{r}
 weight4 <- weight4 %>%
   mutate(dininglocation = recode(dininglocation,
@@ -107,8 +108,8 @@ plot43 <- ggplot(weight_summary4) +
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
         axis.text.y = element_blank()) +
-  labs(x = "SES", y = "Proportion of Dining Location", fill = "Dining Location",
-       title = "Dining Preferences by Socioeconomic Status")
+  labs(x = "Socioeconomic Status", y = "Dining Location", fill = "Dining Location",
+       title = "Dining Location Choices by SES")
 
 plot43d <- ggplot_build(plot43)$data %>% as.data.frame() %>% filter(.wt > 0)
 
@@ -124,10 +125,14 @@ plot431 <- plot43 +
 plot431
 ```
 
+Data Source: [NHANES 2017-March 2020](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2017-2020)
+
+<div style="height: 30px;">
+</div>
 
 <div>
-  <button onclick="showPlot('plot41')">Draft 1</button>
-  <button onclick="showPlot('plot42')">Draft 2</button>
+<button onclick="showPlot('plot41')">Draft 1</button> 
+<button onclick="showPlot('plot42')">Draft 2</button>
 </div>
 
 <div>

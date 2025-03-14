@@ -5,7 +5,7 @@
       "title": "Background, Data, and Analysis",
       "author": [],
       "contents": "\nBackground\nData Source\nNational Health and Nutrition Examination Survey (NHANES) 2017-March 2020 from the National Center for Health Statistics of Centers for Disease Control and Prevention was used in this project. Additional details about the data and its methodology can be found at here\n\n\n\n",
-      "last_modified": "2025-03-13T19:41:06-07:00"
+      "last_modified": "2025-03-13T21:13:36-07:00"
     },
     {
       "path": "index.html",
@@ -13,7 +13,7 @@
       "description": "Welcome to the EDLD652 Data Visualization Final Project Product website!\n",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2025-03-13T19:41:07-07:00"
+      "last_modified": "2025-03-13T21:13:36-07:00"
     }
   ],
   "collections": ["posts/posts.json"]

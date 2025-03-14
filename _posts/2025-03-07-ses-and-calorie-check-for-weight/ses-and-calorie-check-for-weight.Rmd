@@ -65,7 +65,7 @@ plot22 <- weight2 %>%
 ggsave("plot22.png", plot22, width=4.5, height=3, dpi = 150)
 ```
 
-### Final Plots
+## Final Plots
 ```{r, preview = TRUE}
 weight2 <- weight2 %>%
   mutate(
@@ -90,7 +90,7 @@ weight2 %>%
   labs(x = "SES",
        y = NULL,
        fill = "Count",
-       title = "Calorie Label Checking Frequency by SES Group")
+       title = "Calorie Label Checking Frequency by SES")
 
 weight2 %>%
   count(SES_group, calorie_label_usage) %>%
@@ -109,14 +109,15 @@ weight2 %>%
         plot.margin = margin(10, 20, 10, 10)) +
   labs(x = NULL,
        y = "Percentage (%)",
-       fill = "SES",
-       title = "Percentage of Calorie Label Checking by SES Group") +
+       fill = "Socioeconomic Status",
+       title = "Calorie Label Checking Proportion by SES") +
   geom_text(aes(label = paste0(round(percentage, 1), "%")),
             position = position_dodge(width = 0.8),
             vjust = 0.5,
             hjust = -0.1,
             size = 4)
 ```
+Data Source: [NHANES 2017-March 2020](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2017-2020)
 
 <div style="height: 30px;">
 </div>
