@@ -119,7 +119,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["ses-and-calorie-check-for-weight_files/anchor-4.2.2/anchor.min.js","ses-and-calorie-check-for-weight_files/bowser-1.9.3/bowser.min.js","ses-and-calorie-check-for-weight_files/distill-2.2.21/template.v2.js","ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-3-1.png","ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-4-1.png","ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-5-1.png","ses-and-calorie-check-for-weight_files/header-attrs-2.29/header-attrs.js","ses-and-calorie-check-for-weight_files/jquery-3.6.0/jquery-3.6.0.js","ses-and-calorie-check-for-weight_files/jquery-3.6.0/jquery-3.6.0.min.js","ses-and-calorie-check-for-weight_files/jquery-3.6.0/jquery-3.6.0.min.map","ses-and-calorie-check-for-weight_files/popper-2.6.0/popper.min.js","ses-and-calorie-check-for-weight_files/tippy-6.2.7/tippy-bundle.umd.min.js","ses-and-calorie-check-for-weight_files/tippy-6.2.7/tippy-light-border.css","ses-and-calorie-check-for-weight_files/tippy-6.2.7/tippy.css","ses-and-calorie-check-for-weight_files/tippy-6.2.7/tippy.umd.min.js","ses-and-calorie-check-for-weight_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["plot21.png","plot22.png","ses-and-calorie-check-for-weight_files/anchor-4.2.2/anchor.min.js","ses-and-calorie-check-for-weight_files/bowser-1.9.3/bowser.min.js","ses-and-calorie-check-for-weight_files/distill-2.2.21/template.v2.js","ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-3-1.png","ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-4-1.png","ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-5-1.png","ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-5-2.png","ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-6-1.png","ses-and-calorie-check-for-weight_files/header-attrs-2.29/header-attrs.js","ses-and-calorie-check-for-weight_files/jquery-3.6.0/jquery-3.6.0.js","ses-and-calorie-check-for-weight_files/jquery-3.6.0/jquery-3.6.0.min.js","ses-and-calorie-check-for-weight_files/jquery-3.6.0/jquery-3.6.0.min.map","ses-and-calorie-check-for-weight_files/popper-2.6.0/popper.min.js","ses-and-calorie-check-for-weight_files/tippy-6.2.7/tippy-bundle.umd.min.js","ses-and-calorie-check-for-weight_files/tippy-6.2.7/tippy-light-border.css","ses-and-calorie-check-for-weight_files/tippy-6.2.7/tippy.css","ses-and-calorie-check-for-weight_files/tippy-6.2.7/tippy.umd.min.js","ses-and-calorie-check-for-weight_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2482,18 +2482,37 @@ d-appendix d-footnote-list a.footnote-backlink {
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<h1 id="first-draft">First Draft</h1>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+
 </div>
-<h1 id="second-draft">Second Draft</h1>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+
 </div>
-<h1 id="third-draft">Third Draft</h1>
+<h3 id="final-plot">Final Plot</h3>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
+<p><img src="ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-5-1.png" width="624" data-distill-preview=1 /><img src="ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-5-2.png" width="624" data-distill-preview=1 /></p>
 </div>
+<div style="height: 30px;">
+
+</div>
+<div>
+<p><button onclick="showPlot('plot21')">Draft 1</button>
+<button onclick="showPlot('plot22')">Draft 2</button></p>
+</div>
+<div>
+<p>(Click the Draft buttons to view previous plots)</p>
+</div>
+<div id="plot-container">
+<p><img id="plot21" src="plot21.png">
+<img id="plot22" src="plot22.png" style="display:none; width: 100%; height: auto;"></p>
+</div>
+<script>
+  function showPlot(plotId) {
+    document.getElementById('plot21').style.display = "none";
+    document.getElementById('plot22').style.display = "none";
+    document.getElementById(plotId).style.display = "block";
+  }
+</script>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

@@ -23,19 +23,19 @@ library(tidyverse)
 weight2 <- import(here("data", "sesdata.rds"))
 ```
 
-# First Draft
 ```{r}
-weight2 %>%
+plot21 <- weight2 %>%
   mutate(SES_bin = cut(SES, breaks = 3)) %>% 
   ggplot(aes(x = SES_bin, y = factor(calorie_label_usage))) +
   geom_bin2d() +
   scale_fill_gradient(low = "white", high = "blue") +
   theme_minimal() 
+
+ggsave("plot21.png", plot21, width=4.5, height=3, dpi = 150)
 ```
 
-# Second Draft
 ```{r}
-weight2 %>%
+plot22 <- weight2 %>%
   mutate(
     SES_group = cut(SES, 
                   breaks = quantile(SES, probs = c(0, 1/3, 2/3, 1), na.rm = TRUE),
@@ -61,10 +61,84 @@ weight2 %>%
     fill = "Count",
     title = "Calorie Label Checking by SES Group"
   )
+
+ggsave("plot22.png", plot22, width=4.5, height=3, dpi = 150)
 ```
 
 ### Final Plot
-```{r}
+```{r, preview = TRUE}
+weight2 <- weight2 %>%
+  mutate(
+    SES_group = cut(SES, breaks = quantile(SES, probs = c(0, 0.25, 0.75, 1), na.rm = TRUE),
+                         include.lowest = TRUE,
+                         labels = c("Low", "Middle", "High")),
+    calorie_label_usage = recode(calorie_label_usage,
+                                 `1` = "Always",
+                                 `2` = "Most of the time",
+                                 `3` = "Sometimes",
+                                 `4` = "Rarely",
+                                 `5` = "Never"),
+    calorie_label_usage = factor(calorie_label_usage, 
+                                 levels = c("Never", "Rarely", "Sometimes", "Most of the time", "Always")))
 
+weight2 %>%
+  count(SES_group, calorie_label_usage) %>%
+  ggplot(aes(x = SES_group, y = calorie_label_usage, fill = n)) + 
+  geom_tile(color = "white") + 
+  scale_fill_viridis_c(option = "rocket", direction = -1) +
+  theme_minimal() +
+  labs(x = "SES",
+       y = NULL,
+       fill = "Count",
+       title = "Calorie Label Checking Frequency by SES Group")
+
+weight2 %>%
+  count(SES_group, calorie_label_usage) %>%
+  group_by(SES_group) %>%
+  mutate(percentage = n / sum(n) * 100) %>%
+  ggplot(aes(x = calorie_label_usage, y = percentage, fill = SES_group)) + 
+  geom_bar(stat = "identity", position = "dodge", color = "black") + 
+  ylim(NA, 45) +
+  coord_flip() +
+  scale_fill_manual(values = c("Low" = "#ffffe6", "Middle" = "#fb9929", "High" = "#65270b"),
+                    breaks = c("High", "Middle", "Low")) +
+  theme_minimal() +
+  theme(panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        plot.margin = margin(10, 20, 10, 10)) +
+  labs(x = NULL,
+       y = "Percentage (%)",
+       fill = "SES",
+       title = "Percentage of Calorie Label Checking by SES Group") +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")),
+            position = position_dodge(width = 0.8),
+            vjust = 0.5,
+            hjust = -0.1,
+            size = 4)
 ```
 
+<div style="height: 30px;">
+</div>
+
+<div>
+  <button onclick="showPlot('plot21')">Draft 1</button>
+  <button onclick="showPlot('plot22')">Draft 2</button>
+</div>
+
+<div>
+(Click the Draft buttons to view previous plots)
+</div>
+
+<div id="plot-container">
+  <img id="plot21" src="plot21.png">
+  <img id="plot22" src="plot22.png" style="display:none; width: 100%; height: auto;">
+</div>
+
+<script>
+  function showPlot(plotId) {
+    document.getElementById('plot21').style.display = "none";
+    document.getElementById('plot22').style.display = "none";
+    document.getElementById(plotId).style.display = "block";
+  }
+</script>
