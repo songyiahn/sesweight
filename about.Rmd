@@ -1,5 +1,6 @@
 ---
-title: "Background, Data, and Analysis"
+title: "Before we read posts..."
+bibliography: sesreferences.bib 
 ---
 
 ```{r setup, include=FALSE}
@@ -8,6 +9,18 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Background
 
-# Data Source
+In modern society, diet culture has made weight loss not only a symbol of health but also that of self-control and self-development [@tylka2014]. Since a high BMI has long been considered the root of all diseases, weight loss has been equated with health [@lin2021; @temple2022]. Additionally, as weight loss behavior is recognized as an expression of an individual’s desire to live diligently and with self-discipline, having a toned body has become a socially idealized value gain [@jovanovski2022]. However, this misleading equation of ‘health = slim body = social superiority’ overlooks the fact that comprehensive health and weight are influenced by social structural factors.
 
-National Health and Nutrition Examination Survey (NHANES) 2017-March 2020 from the National Center for Health Statistics of Centers for Disease Control and Prevention was used in this project. Additional details about the data and its methodology can be found at [here](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2017-2020)
+An individual’s health behavior is known to be closely linked to sociocultural factors [@bourdieu2018]. According to Cockerham [-@cockerham2005]’s Health Lifestyle Theory, class and living conditions play an important role in forming a healthy lifestyle. People who pursue a fit body can use their financial resources, social status, and networks to consume healthy foods and products, and differences in socioeconomic resources also affect the way they achieve their goals [@cockerham2017]. Furthermore, certain health and body standards may become established as ‘norm’ within groups that share similar socioeconomic backgrounds, and differences in health and weight-related perceptions and behaviors across classes may be intensified.
+
+Building on this understanding, this project aims to examine the association between socioeconomic status and weight-related perceptions and behaviors through data visualizations.
+
+# Data
+
+National Health and Nutrition Examination Survey (NHANES) 2017-March 2020 from the National Center for Health Statistics of Centers for Disease Control and Prevention was used in this project. Additional details about the data and its methodology can be found at [**here**](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2017-2020).
+
+Socioeconomic status data comprehensively reflects the individual's ratio of family income to poverty, employment status, education level, and health insurance status and is expressed as a single index. BMI is the original data calculated based on the self-reported weight and height. Weight perception data comes from survey responses where respondents reported how they perceive their own weight, choosing “overweight”, “about the right weight”, and “underweight”. Calorie label check for weight management was based on responses from individuals who selected weight management as their reason for using food labels, indicating how frequently they check the calorie information on food labels. Weight loss behavior is categorized into five groups by consolidating similar methods reported by respondents. Choice of dining location is based on survey responses in which individuals selected the types of dining places they had visited in the past year. Respondent could choose multiple dining locations.
+
+# Analysis
+
+Plots were produced using *tidyverse* [@tidyverse], *ggridges* [@ggridges], *ggmosaic* [@ggmosaic], and *scales* [@scales] packages in R [@r]. The blog was created using R's *distill* [@distill] package, which is based on R Markdown.
