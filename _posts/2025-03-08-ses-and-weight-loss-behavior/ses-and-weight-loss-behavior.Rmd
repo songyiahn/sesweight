@@ -60,6 +60,9 @@ ggsave("plot32.png", plot32, width=6, height=4, dpi = 150)
 ```
 
 ## Final Plot
+
+Since differences in SES can lead to differences in the methods individuals use to lose weight, this plot aims to explore how socioeconomic status (SES) is linked with engagement in various weight loss behaviors.
+
 ```{r, fig.width=8, fig.height=6}
 weight3 <- weight3 %>%
   mutate(weight_loss_behavior_type = recode(weight_loss_behavior_type,
@@ -68,7 +71,7 @@ weight3 <- weight3 %>%
 
 weight3$weight_loss_behavior_type <- factor(weight3$weight_loss_behavior_type, 
                                            levels = rev(c("exercise", "diet_change", "less_eating", "professional_help", "Perform Harmful Behaviors")),
-                                           labels = rev(c("Exercise", "Change Diet", "Eating Less", "Get Professional Help", "Perform Harmful Behaviors*")))
+                                           labels = rev(c("Exercise", "Change Diet", "Eat Less", "Get Professional Help", "Perform Harmful Behaviors*")))
 
 weight3 %>%
   ggplot(aes(x = SES, y = weight_loss_behavior_type, fill = weight_loss_behavior_type)) +
@@ -89,8 +92,13 @@ weight3 %>%
 ```
 Data Source: [NHANES 2017-March 2020](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2017-2020)
 
-<div style="height: 30px;">
-</div>
+The finalized plot is a ridgeline plot. In this plot, SES is treated as a continuous variable using raw scores, indicating higher scores as higher SES. Each mountain-shaped figure shows how the distribution of SES changes depending on the weight loss method. Weight loss behaviors were classified into five categories: exercise, change diet, eat less, get professional help, and perform risky behaviors. Risky behaviors include taking non-prescription pills such as laxatives, vomiting, and smoking. Each behavior is represented by a different color using a categorical color palette designed to be colorblind-friendly. 
+
+The plot shows that, overall, as SES increases, individuals engage more in all weight loss behaviors. In particular, seeking help from professionals, which requires financial resources and health insurance, was significantly more common among those with higher SES and much less frequent among those with lower SES. Moreover, the distribution of the low SES group was much denser in the case of harmful behaviors. This highlights a concerning trend: individuals with limited economic and health insurance support and lower levels of education may be more vulnerable to engaging in risky weight loss practices.
+
+The intended audience for this plot includes public health professionals, as well as medical experts. By understanding the relationship between weight loss behaviors and SES, they can develop policies to strengthen health education and create public health interventions. It could be also helpful in providing customized treatment approaches to prevent individuals with low SES from using harmful weight loss methods.
+
+## Drafts
 
 <div>
   <button onclick="showPlot('plot31')">Draft 1</button>
@@ -113,3 +121,5 @@ Data Source: [NHANES 2017-March 2020](https://wwwn.cdc.gov/nchs/nhanes/continuou
     document.getElementById(plotId).style.display = "block";
   }
 </script>
+
+Throughout the development process, the ridgeline plot has been refined to clearly convey the intended messages. The first draft successfully visualized the data, but it lacked color distinction, and the labels for each axis were not neatly written. In the second draft, different colors were applied to each behavior and labels for each axis and element were written on the graphs. However, both the legend and individual graphs displayed behavior labels, which made the plot somewhat distracting. In the final plot, therefore, weight loss behavior labels were placed only on one side of the y-axis to maintain simplicity while ensuring clarity. Detailed caption was added to clarify the meaning of harmful behaviors.

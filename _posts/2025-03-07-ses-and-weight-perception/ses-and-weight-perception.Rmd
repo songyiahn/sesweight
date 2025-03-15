@@ -53,6 +53,8 @@ ggsave("plot12.png", plot12, width=6, height=4, dpi = 150)
 
 ## Final Plot
 
+This plot was created to investigate the association between socioeconomic status (SES) and individuals’ perceptions about their own weight, regardless of their BMI. In today's world where thinness and lean body are considered ideal social values, whether a lean body functions as a capital to maintain SES or not is an interesting topic.
+
 ```{r, fig.width=8, fig.height=6}
 weight1$SES_group2 <- cut(weight1$SES,
                          breaks = quantile(weight1$SES, probs = c(0, 0.5, 1), na.rm = TRUE),
@@ -84,12 +86,15 @@ ggplot(weight1, aes(x = SES_group2, y = BMI, fill = weight_perception)) +
 
 Data Source: [NHANES 2017-March 2020](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2017-2020)
 
-<div style="height: 30px;">
-</div>
+The finalized plot is a boxplot. SES was categorized into two groups in this boxplot: low and high. Individuals below the 25th percentile are classified as low SES, while those above the 75th percentile are classified as high SES. The plot also compares the BMI of people who perceive themselves as overweight, of the right, or underweight within each SES group. The visualization shows that among those who consider themselves overweight, individuals with low SES have higher BMIs than those with high SES. In other words, people with high SES tend to have a stricter perception of their own weight. A similar pattern was observed among those who perceive themselves as being of the right weight or underweight.
+
+The intended audience for this plot is health-related social science researchers. Since the box plot is a data visualization method frequently used by social scientists, there will not be much difficulty in interpreting it. For researchers interested in topics such as health and social class, this plot will be insightful to study how weight, body shape, and health status function within social class structures.
+
+## Drafts
 
 <div>
-<button onclick="showPlot('plot11')">Draft 1</button> 
-<button onclick="showPlot('plot12')">Draft 2</button>
+  <button onclick="showPlot('plot11')">Draft 1</button>
+  <button onclick="showPlot('plot12')">Draft 2</button>
 </div>
 
 <div>
@@ -108,3 +113,5 @@ Data Source: [NHANES 2017-March 2020](https://wwwn.cdc.gov/nchs/nhanes/continuou
     document.getElementById(plotId).style.display = "block";
   }
 </script>
+
+There were dynamic changes in plots until this final plot was completed. The first draft used a jitter plot to spread out the overlapping dots. The dots were color-coded depending on the individual's weight perception, but the jitter plot was too messy to interpret effectively. Accordingly, the second draft changed it to a scatter plot that could reduce the number of dots and applied a color scale that was considerate of color-blind audiences. Regression lines were also added to visualize the trend, but it was still difficult to interpret intuitively. Finally, the box plot was adopted, incorporating information of medically relevant BMI categories. The final version of the plot was able to convey the intended message most clearly and effectively.

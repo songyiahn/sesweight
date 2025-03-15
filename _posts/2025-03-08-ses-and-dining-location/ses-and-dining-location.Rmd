@@ -70,6 +70,8 @@ ggsave("plot42.png", plot42, width=6, height=4, dpi = 150)
 
 ## Final Plot
 
+This plot was generated to look into how socioeconomic status (SES) is related to individuals’ choice of dining location. The choice of dining location is influenced not only by the cost of meals but also by the types of food offered and their impact on weight. 
+
 ```{r, fig.width=8, fig.height=6}
 weight4 <- weight4 %>%
   mutate(dininglocation = recode(dininglocation,
@@ -127,8 +129,15 @@ plot431
 
 Data Source: [NHANES 2017-March 2020](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2017-2020)
 
-<div style="height: 30px;">
-</div>
+The finalized plot is a mosaic plot. SES was categorized into two groups in this boxplot: low and high. Individuals below the 25th percentile are classified as low SES, while those above the 75th percentile are classified as high SES. Each box in the mosaic visually represents the proportion of dining locations chosen by SES group. The labels written above them indicate the percentage of individuals within each SES group who selected that dining location. 
+
+The low SES group ate the most at fast food restaurants, while the high SES group ate the most at restaurants with servers. In addition, the high SES group had the least experience eating at all-you-can-eat buffets, where diners can eat as much as they want without restrictions. In today's society, where fast food places are common dining choices, the overall rate of eating at fast food places was high across both SES groups. Still, the rate was higher in the low SES group than in the high SES group. In contrast, the rate of eating at a restaurant with a server was higher in the high SES group than in the low SES group. 
+
+Fast food places often serve junk food that is not helpful for weight loss. Meanwhile, restaurants with a server are more advantageous for those managing their weight as they offer greater flexibility in adjusting ingredients and menu options according to individuals’ dietary needs. Therefore, this plot shows that there are differences in dining location choice depending on SES.
+
+The intended audience for this plot is medical, nutrition experts, and public health professionals. They can consider that there are differences in dining location associated with SES levels. They could provide their patients or customers more detailed dietary counseling based on that and develop policies such as subsidies for healthier restaurant options and expanded access to fresh food at fast food places.
+
+## Drafts
 
 <div>
 <button onclick="showPlot('plot41')">Draft 1</button> 
@@ -151,3 +160,5 @@ Data Source: [NHANES 2017-March 2020](https://wwwn.cdc.gov/nchs/nhanes/continuou
     document.getElementById(plotId).style.display = "block";
   }
 </script>
+
+The plot went through several revisions before reaching the final mosaic plot. The first draft divided the SES groups into three, but it was decided that using only two groups would more clearly illustrate the differences in dining location choices based on SES. In the second draft, thus, SES was categorized into two groups and gave each plot element an appropriate label. However, dividing SES exactly in half made the plot resemble a general stacked bar chart, not fully utilizing the strengths of a mosaic plot. To address this, SES groups were re-categorized according to the quantiles in the final version. Also, in earlier drafts, the color order of the legend was reversed compared to the plot, which was corrected in the final version for consistency. Lastly, in the last plot, unnecessary grid lines were removed and the percentages were displayed as numerical labels to enhance clarity.

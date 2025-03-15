@@ -1559,13 +1559,18 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 </div>
 <h2 id="final-plots">Final Plots</h2>
+<p>These plots were created to examine how socioeconomic status (SES) is associated with the frequency of calorie label checking for weight management. People who want to control their weight often check calorie information when purchasing food. If the frequency of this behavior differs by SES, it could suggest that certain SES groups are more engaged in weight management. For this analysis, I created two final plots, which categorized SES into three groups: low, middle, and high. Individuals below the 25th percentile are classified as low SES, those above the 75th percentile as high SES, and those in between as middle SES.</p>
+<p>First, the heatmap illustrates the total number of responses regarding how often individuals check the calories on food labels by SES group. Darker colors, such as dark red and black, indicate a higher number of responses, while lighter colors represent fewer responses. The ‘rocket’ color option is part of the viridis scale, transitioning from light to dark in a gradient. It is colorblind-friendly while effectively representing value differences in an ordered manner. The heat map shows that more people check calories than those who do not across all SES groups. The “most of the time” and “sometimes” columns of the middle SES group are the darkest, indicating that the middle class uses calorie checks most frequently. However, since it is not easy to directly compare the extent of calorie label checks within SES groups in the heat map, an additional bar graph was created.</p>
 <div class="layout-chunk" data-layout="l-body">
-<p><img src="ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-5-1.png" width="768" /><img src="ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-5-2.png" width="768" /></p>
+<p><img src="ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-5-1.png" width="768" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="ses-and-calorie-check-for-weight_files/figure-html5/unnamed-chunk-6-1.png" width="768" /></p>
 </div>
 <p>Data Source: <a href="https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2017-2020">NHANES 2017-March 2020</a></p>
-<div style="height: 30px;">
-
-</div>
+<p>This bar graph displays the percentage distribution of calorie labels checking frequency across SES groups. The bar graph reveals that individuals in the high SES group have the highest rates of checking calorie labels for “always” and “most of the time”, followed by those in the middle and low SES groups. Meanwhile, the low SES group has the highest proportion of individuals who “rarely” or “never” check calories. Therefore, it can be seen that the higher the SES, the more often they check calories on food labels for weight control.</p>
+<p>The intended audiences for these plots are public health policymakers and people in the health and food industries. By seeing the differences in calorie label checking across SES groups, they could develop tailored weight management programs or design food packaging that emphasizes different health benefits or nutritional information in particular products that are more likely to be consumed by certain SES groups.</p>
+<h2 id="drafts">Drafts</h2>
 <div>
 <p><button onclick="showPlot('plot21')">Draft 1</button>
 <button onclick="showPlot('plot22')">Draft 2</button></p>
@@ -1584,6 +1589,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     document.getElementById(plotId).style.display = "block";
   }
 </script>
+<p>Before finally adding the bar graph, creating a heatmap was the main challenge. The first draft used a binned heatmap that divided the SES groups based on raw SES scores. However, in the second draft, quantiles were used to better reflect the distribution of respondents, converting it into a regular heatmap. originally a white-to-blue gradient was used for the color scheme, which could be hard for some people to read. After changing the colors into the color-blind-friendly palette, titles and labels were added to enhance clarity. Additionally, the first draft used the original dataset coded “always” as 1 and “never” as 5, which was not intuitive. Then the numerical codes were replaced with descriptive labels, the order was reversed in the second draft. This order was maintained through to the final version of plots to improve readability and interpretation: as the values go up, it indicates more frequent calorie-checking behavior.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
